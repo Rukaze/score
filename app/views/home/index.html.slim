@@ -1,11 +1,16 @@
 #hello
-  .text-center
-    b-button variant="primary" 
-      | Notifications
-      b-badge variant="light"  4
+  table.table.table-hover
+    thead
+      tr
+        th  名前
+        th  ポジション
+    
+    tbody
+      - @players.each do |p|
+        tr
+          td = p.name
+          td = p.position
+  div v-text="message"
 
-.text-center
-  b-button variant="primary"
-    | Notifications                                                                                                                    
-    b-badge variant="light"  4
+    
 = javascript_pack_tag "home"
