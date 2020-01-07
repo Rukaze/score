@@ -1,0 +1,18 @@
+#reg
+  = form_with(model: @player, url:create_path, local:true) do |f|
+    ul.m-2
+      li.m-2
+        = f.label :名前, class: 'mr-2'
+        = f.text_field :name
+      li.m-2
+        = f.label :ポジション
+        = f.select :position, {'ガード': 'G', 'フォワード': 'F', 'センター': 'C', 'G/F': 'G/F', 'F/C': 'F/C'} 
+      
+      li.m-2
+        = f.label :チーム
+        = f.collection_select(:team_name, @teams, :team_name, :team_name) 
+      = f.submit '選手登録', class: 'btn btn-primary' 
+      
+      
+      
+= javascript_pack_tag "home"

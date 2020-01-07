@@ -1,0 +1,10 @@
+#team_reg
+  = form_with(model: @team, url:team_create_path, local:true) do |f|
+    ul.m-2
+      li.m-2
+        = f.label :チーム名, class: 'mr-2'
+        = f.text_field :team_name
+      = f.submit 'チーム登録', class: 'btn btn-primary'  
+      
+= javascript_pack_tag "home"
+      

@@ -11,3 +11,7 @@ const app = new Vue({
 const reg = new Vue({
     el: '#reg',
 });
+
+const team_reg = new Vue({
+    el: '#team_reg',
+});
