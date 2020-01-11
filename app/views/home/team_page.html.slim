@@ -1,0 +1,14 @@
+#team_page
+  table.table.table-hover
+    thead
+      tr
+        th  名前
+        th  ポジション
+    
+    tbody
+      - @players.each do |p|
+        tr
+          td = p.name
+          td = p.position
+
+= javascript_pack_tag "home"

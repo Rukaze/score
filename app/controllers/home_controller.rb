@@ -4,6 +4,7 @@ class HomeController < ApplicationController
   end
   
   def home
+    @teams = Team.all
   end
   
   def reg
@@ -25,6 +26,11 @@ class HomeController < ApplicationController
     @team = Team.new(team_params)
     @team.save
     redirect_to root_path
+  end
+  
+  def team_page
+    @team = Team.find_by(id: params[:id])
+    @players = Player.where(team_name: @team.team_name)
   end
   
   def player_params

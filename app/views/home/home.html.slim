@@ -1,0 +1,29 @@
+#home
+  .container-fluid
+    .col-xs-12.col-md-6
+      h3.text-center 登録チーム
+      .m-3
+        - @teams.each do |t|
+          .container.p-4.border.mb-1
+            = link_to( team_page_path(id: t.id)) do
+              = t.team_name
+            br
+  a v-text="message"
+#app-104
+  input type="text" name="text1" v-model:value="message"
+  input type="checkbox" @click="change" :checked="true"
+  span v-if="seen" Hello
+  <span v-else>{{ message }}</span>
+#app-123
+  input type="text" name="text1" v-model:value="message"
+  div Message: <span v-once>{{ message }}</span>
+  a Message:
+  span v-text="message"
+#timer
+  .timer
+    <div>{{formatTime}}</div>
+    <button v-on:click="start" v-if="!timerOn">Start</button>
+    <button v-on:click="stop" v-if="timerOn">Stop</button>
+  
+
+= javascript_pack_tag "home"
