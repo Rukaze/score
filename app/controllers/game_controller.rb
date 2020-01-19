@@ -12,7 +12,7 @@ class GameController < ApplicationController
   
   def game
     @game = Game.last
-    gon.period = @game.period_time
+    @period = @game.period_time
   end
   
   def game_params

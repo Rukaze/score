@@ -17,12 +17,12 @@ const pregame = new Vue({
   }
 });
 
-
+var varUserId = document.getElementById('txtUserId').innerHTML;
 const timer = new Vue({
   el: '#timer',
   data() {
     return {
-      min: this.gon.period,
+      min: varUserId,
       sec: 0,
       timerOn: false,
       timerObj: null,
