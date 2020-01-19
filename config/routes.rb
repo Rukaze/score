@@ -6,4 +6,7 @@ Rails.application.routes.draw do
    post 'team_create', to: 'home#team_create'
    post 'create', to:'home#create'
    get 'team_page', to:'home#team_page'
+   get 'pregame', to:'game#pregame'
+   get 'game', to:'game#game'
+   post 'game_create', to:'game#game_create'
 end

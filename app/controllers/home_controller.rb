@@ -5,6 +5,7 @@ class HomeController < ApplicationController
   
   def home
     @teams = Team.all
+    gon.team = Team.last.team_name
   end
   
   def reg

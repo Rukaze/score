@@ -19,11 +19,5 @@
   div Message: <span v-once>{{ message }}</span>
   a Message:
   span v-text="message"
-#timer
-  .timer
-    <div>{{formatTime}}</div>
-    <button v-on:click="start" v-if="!timerOn">Start</button>
-    <button v-on:click="stop" v-if="timerOn">Stop</button>
-  
 
 = javascript_pack_tag "home"

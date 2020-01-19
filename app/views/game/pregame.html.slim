@@ -1,0 +1,13 @@
+#pregame
+  = form_with(model: @game_setting, url:game_create_path, local:true) do |f|
+    ul.m-2
+      li.m-2
+        = f.label :チーム名, class: 'mr-2'
+        = f.collection_select(:team, @teams, :team_name, :team_name)
+      li.m-2
+        = f.label :'1ピリオドの時間(分)', class: 'mr-2'
+        = f.text_field(:period_time, readonly: true,"v-model.number": "period_time")
+        button　type="button" @click="plus" +
+        button type="button" @click="minus" -
+      = f.submit '試合開始', class: 'btn btn-primary' 
+= javascript_pack_tag "game"
