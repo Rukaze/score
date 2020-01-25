@@ -9,4 +9,6 @@ Rails.application.routes.draw do
    get 'pregame', to:'game#pregame'
    get 'game', to:'game#game'
    post 'game_create', to:'game#game_create'
+   resources :employees, only: [:index, :show]
+   
 end

@@ -1,0 +1,17 @@
+#employees
+  - @employees.each do |employee|
+    button v-on:click="setEmployeeInfo(#{employee.id} )" = employee.name 
+    
+  div v-show = 'employeeBool'
+    a name: 
+    a v-text = 'employeeInfo.name'
+    br
+    a age:
+    a v-text = 'employeeInfo.age'
+    br
+    a email:
+    a v-text = 'employeeInfo.email'
+    
+
+
+= javascript_pack_tag 'index' 
