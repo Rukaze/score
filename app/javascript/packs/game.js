@@ -1,6 +1,7 @@
 import Vue from 'vue/dist/vue.esm';
 import BootstrapVue from 'bootstrap-vue'
 import App from '../app.vue'
+import axios from 'axios';
 
 Vue.use(BootstrapVue);
 
@@ -43,14 +44,18 @@ const timer = new Vue({
     start: function() {
       let self = this;
       this.timerObj = setInterval(function() {self.count()}, 1000)
-      this.timerOn = true; //timerがOFFであることを状態として保持
+      this.timerOn = true; //timerがOFFであることを状態として保
     },
 
     stop: function() {
       clearInterval(this.timerObj);
       this.timerOn = false; //timerがOFFであることを状態として保持
+      
     },
-
+    
+    check: function() {
+      axios.post(`game/check/${this.min}/${this.sec}`);
+    },
     complete: function() {
       clearInterval(this.timerObj)
     }
@@ -69,5 +74,6 @@ const timer = new Vue({
       })
       return timeStrings[0] + ":" + timeStrings[1]
     }
-  }
+  },
+  
 });
