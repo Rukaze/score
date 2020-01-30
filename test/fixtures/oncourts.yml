@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  team: MyString
+  p1: MyString
+  p2: MyString
+  p3: MyString
+  p4: MyString
+  p5: MyString
+
+two:
+  team: MyString
+  p1: MyString
+  p2: MyString
+  p3: MyString
+  p4: MyString
+  p5: MyString

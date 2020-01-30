@@ -9,9 +9,14 @@ class GameController < ApplicationController
   def game_create
     @game_setting = Game.new(game_params)
     @game_setting.save
-    redirect_to game_path
+    redirect_to start5_path
   end
   
+  def start5
+    @team = Game.last.team
+    @start5_setting = Oncourt.new
+    
+  end
   def time
     @game = Game.last
     @min = params[:min]

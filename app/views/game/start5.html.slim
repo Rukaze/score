@@ -1,0 +1,22 @@
+#start5  
+  = form_with(model: @start5_setting, url:game_create_path, local:true) do |f|
+      ul.m-2
+        li.m-2
+          = f.label :プレイヤー１, class: 'mr-2'
+          = f.collection_select :p1, Player.where(team_name: @team), :id,:name
+        li.m-2
+          = f.label :プレイヤー2, class: 'mr-2'
+          = f.collection_select :p2, Player.where(team_name: @team), :id,:name
+        li.m-2
+          = f.label :プレイヤー3, class: 'mr-2'
+          = f.collection_select :p3, Player.where(team_name: @team), :id,:name
+        li.m-2
+          = f.label :プレイヤー4, class: 'mr-2'
+          = f.collection_select :p4, Player.where(team_name: @team), :id,:name
+        li.m-2
+          = f.label :プレイヤー5, class: 'mr-2'
+          = f.collection_select :p5, Player.where(team_name: @team), :id,:name
+        
+
+
+= javascript_pack_tag "game"
