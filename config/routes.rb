@@ -12,4 +12,5 @@ Rails.application.routes.draw do
    resources :employees, only: [:index, :show]
    post 'game/check/:min/:sec' , to:'game#time'
    get 'start5', to:'game#start5'
+   post 'start5_setting', to:'game#start5_setting'
 end

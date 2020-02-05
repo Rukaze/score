@@ -17,6 +17,12 @@ class GameController < ApplicationController
     @start5_setting = Oncourt.new
     
   end
+  
+  def start5_setting
+    @start5_setting = Oncourt.new(start5_params)
+    @players = 
+    @start5_setting.save
+  end
   def time
     @game = Game.last
     @min = params[:min]
@@ -38,4 +44,7 @@ class GameController < ApplicationController
     params.require(:game).permit(:team, :period_time)
   end
   
+  def start5_params
+    params.require(:oncourt).permit(:team,:p1,:p2,:p3,:p4,:p5)
+  end
 end
