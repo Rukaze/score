@@ -14,6 +14,7 @@ class GameController < ApplicationController
   
   def start5
     @team = Game.last.team
+    @players = Player.where(team_name: @team)
     @start5_setting = Oncourt.new
     
   end

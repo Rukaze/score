@@ -1,23 +1,6 @@
-#start5  
-  = form_with(model: @start5_setting, url:start5_setting_path, local:true) do |f|
-      ul.m-2
-        li.m-2
-          = f.label :プレイヤー１, class: 'mr-2'
-          = f.collection_select :p1, Player.where(team_name: @team), :name,:name
-        li.m-2
-          = f.label :プレイヤー2, class: 'mr-2'
-          = f.collection_select :p2, Player.where(team_name: @team), :name,:name
-        li.m-2
-          = f.label :プレイヤー3, class: 'mr-2'
-          = f.collection_select :p3, Player.where(team_name: @team), :name,:name
-        li.m-2
-          = f.label :プレイヤー4, class: 'mr-2'
-          = f.collection_select :p4, Player.where(team_name: @team), :name,:name
-        li.m-2
-          = f.label :プレイヤー5, class: 'mr-2'
-          = f.collection_select :p5, Player.where(team_name: @team), :name,:name
-        
-        = f.submit '試合開始', class: 'btn btn-primary' 
-
-    
+#start5
+  - @players.each do |player|
+    button v-on:click="setPlayer(#{player.id} )" = player.name
+    button v-on:click="start(#{player.id} )" v-if="!checkOn" = player.name
+    button v-on:click="reserve(#{player.id} )" v-if="checkOn" Stop
 = javascript_pack_tag "game"

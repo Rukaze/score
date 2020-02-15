@@ -1,9 +1,10 @@
 import Vue from 'vue/dist/vue.esm';
 import BootstrapVue from 'bootstrap-vue'
-import App from '../app.vue'
 import axios from 'axios';
 
 Vue.use(BootstrapVue);
+
+
 
 const pregame = new Vue({
     el: '#pregame',
@@ -18,12 +19,16 @@ const pregame = new Vue({
   }
 });
 
-var varUserId = document.getElementById('txtUserId').innerHTML;
+
+
+
+var varUserId = document.getElementById('txtUserId');
 const timer = new Vue({
+  
   el: '#timer',
   data() {
     return {
-      min: varUserId,
+      min: varUserId.innerHTML,
       sec: 0,
       timerOn: false,
       timerObj: null,
@@ -44,12 +49,12 @@ const timer = new Vue({
     start: function() {
       let self = this;
       this.timerObj = setInterval(function() {self.count()}, 1000)
-      this.timerOn = true; //timerがOFFであることを状態として保
+      this.timerOn = true; 
     },
 
     stop: function() {
       clearInterval(this.timerObj);
-      this.timerOn = false; //timerがOFFであることを状態として保持
+      this.timerOn = false; 
       
     },
     
@@ -77,3 +82,19 @@ const timer = new Vue({
   },
   
 });
+
+const aaaa = new Vue({
+  el: '#start5',
+  data:{
+      checkOn: false,
+  },
+  methods: {
+    start: function() {
+      this.checkOn = true;
+    },
+    reserve: function() {
+      this.checkOn = false; 
+    },
+  },
+});
+

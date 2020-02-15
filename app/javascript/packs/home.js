@@ -3,9 +3,9 @@ import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(BootstrapVue);
 
-const app = new Vue({
+const home = new Vue({
     el: '#hello',
-    data: { message: 'Hello!' }
+    data: { message: 'Hel!' }
 });
 
 const reg = new Vue({
@@ -34,6 +34,6 @@ var app104 = new Vue({
 
 var app123 = new Vue({
   el: '#app-123',
-  data: { message: 'Hello' }
+  data: { message: 'Hel' }
 })
 
