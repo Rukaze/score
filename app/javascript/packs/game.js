@@ -83,18 +83,34 @@ const timer = new Vue({
   
 });
 
-const aaaa = new Vue({
+
+const start5 = new Vue({
   el: '#start5',
-  data:{
-      checkOn: false,
+  data: {
+    p1Info: 'a',
+    p2Info: 'a',
+    p3Info: 'a',
+    p4Info: 'a',
+    p5Info: 'a',
   },
   methods: {
-    start: function() {
-      this.checkOn = true;
-    },
-    reserve: function() {
-      this.checkOn = false; 
-    },
-  },
+    setStart5(id){
+      axios.get(`game/start5/${id}.json`)
+        .then(res => {
+          console.log(res.data)
+            if (this.p1Info == 'a'){
+              this.p1Info = res.data;
+            }else{if(this.p2Info == 'a' &&  this.p1Info.id != res.data.id){
+              this.p2Info = res.data;
+            }else{if(this.p3Info == 'a'){
+              this.p3Info = res.data;
+            }else{if(this.p4Info == 'a'){
+              this.p4Info = res.data;
+            }else{if(this.p5Info == 'a'){
+              this.p5Info = res.data;
+            }}}}}});
+  }}
+  
+  
 });
-
+ 

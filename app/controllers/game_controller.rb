@@ -19,9 +19,13 @@ class GameController < ApplicationController
     
   end
   
+  def player_info
+    @player = Player.find(params[:id])
+    render json: @player
+  end
+  
   def start5_setting
     @start5_setting = Oncourt.new(start5_params)
-    @players = 
     @start5_setting.save
   end
   def time

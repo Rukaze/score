@@ -1,6 +1,15 @@
 #start5
   - @players.each do |player|
-    button v-on:click="setPlayer(#{player.id} )" = player.name
-    button v-on:click="start(#{player.id} )" v-if="!checkOn" = player.name
-    button v-on:click="reserve(#{player.id} )" v-if="checkOn" Stop
+    button v-on:click="setStart5(#{player.id})"  = player.name
+  div 
+    a name: 
+    a v-text = 'p1Info.name'
+    a name: 
+    a v-text = 'p2Info.name'
+    a name: 
+    a v-text = 'p3Info.name'
+    a name: 
+    a v-text = 'p4Info.name'
+    a name: 
+    a v-text = 'p5Info.name'
 = javascript_pack_tag "game"
