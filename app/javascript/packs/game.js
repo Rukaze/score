@@ -87,26 +87,26 @@ const timer = new Vue({
 const start5 = new Vue({
   el: '#start5',
   data: {
-    p1Info: 'a',
-    p2Info: 'a',
-    p3Info: 'a',
-    p4Info: 'a',
-    p5Info: 'a',
+    p1Info: 'none',
+    p2Info: 'none',
+    p3Info: 'none',
+    p4Info: 'none',
+    p5Info: 'none',
   },
   methods: {
     setStart5(id){
       axios.get(`game/start5/${id}.json`)
         .then(res => {
           console.log(res.data)
-            if (this.p1Info == 'a'){
+            if (this.p1Info == 'none' && this.p1Info.id != res.data.id && this.p2Info.id != res.data.id && this.p3Info.id != res.data.id && this.p4Info.id != res.data.id && this.p5Info.id != res.data.id){
               this.p1Info = res.data;
-            }else{if(this.p2Info == 'a' &&  this.p1Info.id != res.data.id){
+            } else{if(this.p2Info == 'none' && this.p1Info.id != res.data.id && this.p2Info.id != res.data.id && this.p3Info.id != res.data.id && this.p4Info.id != res.data.id && this.p5Info.id != res.data.id){
               this.p2Info = res.data;
-            }else{if(this.p3Info == 'a'){
+              } else{if(this.p3Info == 'none' && this.p1Info.id != res.data.id && this.p2Info.id != res.data.id && this.p3Info.id != res.data.id && this.p4Info.id != res.data.id && this.p5Info.id != res.data.id){
               this.p3Info = res.data;
-            }else{if(this.p4Info == 'a'){
+                } else{if(this.p4Info == 'none' && this.p1Info.id != res.data.id && this.p2Info.id != res.data.id && this.p3Info.id != res.data.id && this.p4Info.id != res.data.id && this.p5Info.id != res.data.id){
               this.p4Info = res.data;
-            }else{if(this.p5Info == 'a'){
+                  }  else{if(this.p5Info == 'none' && this.p1Info.id != res.data.id && this.p2Info.id != res.data.id && this.p3Info.id != res.data.id && this.p4Info.id != res.data.id && this.p5Info.id != res.data.id){
               this.p5Info = res.data;
             }}}}}});
   }}
