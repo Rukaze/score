@@ -7,7 +7,6 @@ class CreateOncourts < ActiveRecord::Migration[6.0]
       t.string :p3
       t.string :p4
       t.string :p5
-
       t.timestamps
     end
   end

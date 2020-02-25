@@ -15,7 +15,6 @@ class GameController < ApplicationController
   def start5
     @team = Game.last.team
     @players = Player.where(team_name: @team)
-    @start5_setting = Oncourt.new
     
   end
   
@@ -24,10 +23,6 @@ class GameController < ApplicationController
     render json: @player
   end
   
-  def start5_setting
-    @start5_setting = Oncourt.new(start5_params)
-    @start5_setting.save
-  end
   def time
     @game = Game.last
     @min = params[:min]
@@ -40,6 +35,20 @@ class GameController < ApplicationController
     end
   end
   
+  
+  
+  def start5_confirm
+    @start5 = Start5.new
+    @start5.team = Game.last.team
+    @start5.p1 = Player.find(params[:p1id]).id
+    @start5.p2 = Player.find(params[:p2id]).id
+    @start5.p3 = Player.find(params[:p3id]).id
+    @start5.p4 = Player.find(params[:p4id]).id
+    @start5.p5 = Player.find(params[:p5id]).id
+    @start5.save
+    
+  end
+  
   def game
     @game = Game.last
     @period = @game.period_time
@@ -50,6 +59,6 @@ class GameController < ApplicationController
   end
   
   def start5_params
-    params.require(:oncourt).permit(:team,:p1,:p2,:p3,:p4,:p5)
+    params.require(:start5).permit(:team,:p1,:p2,:p3,:p4,:p5)
   end
 end
