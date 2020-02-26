@@ -8,16 +8,5 @@
             = link_to( team_page_path(id: t.id)) do
               = t.team_name
             br
-  span v-text="message"
-#app-104
-  input type="text" name="text1" v-model:value="message"
-  input type="checkbox" @click="change" :checked="true"
-  span v-if="seen" Hello
-  <span v-else>{{ message }}</span>
-#app-123
-  input type="text" name="text1" v-model:value="message"
-  div Message: <span v-once>{{ message }}</span>
-  a Message:
-  span v-text="message"
   
 = javascript_pack_tag "home"

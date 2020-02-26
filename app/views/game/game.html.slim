@@ -1,10 +1,15 @@
 #timer
   .timer
     div#time v-text="formatTime" 
-    <button v-on:click="start" v-if="!timerOn">Start</button>
-    <button v-on:click="stop" v-if="timerOn">Stop</button>
-    <button v-on:click="check">check</button>
- 
-a type="text" id="txtUserId" name="nmUserId" class="csUserId" = @period
+    button v-on:click="start" v-if="!timerOn" Start
+    button v-on:click="stop" v-if="timerOn" Stop
+    button v-on:click="check" check
+  
+a type="text" id="min"  class="d-none" = @period
+a type="text" id="p1"  class="d-none" = @p1.id
+a type="text" id="p2"  class="d-none" = @p2.id
+a type="text" id="p3"  class="d-none" = @p3.id
+a type="text" id="p4"  class="d-none" = @p4.id
+a type="text" id="p5"  class="d-none" = @p5.id
 
-= javascript_pack_tag "game"
+= javascript_pack_tag "game/game"
