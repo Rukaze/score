@@ -10,8 +10,9 @@ var orip2 = document.getElementById('p2');
 var orip3 = document.getElementById('p3');
 var orip4 = document.getElementById('p4');
 var orip5 = document.getElementById('p5');
-const timer = new Vue({
-  el: '#timer',
+var revs = document.getElementsByClassName('reserves');
+const game = new Vue({
+  el: '#game',
   data() {
     return {
       min: min.innerHTML,
@@ -23,6 +24,8 @@ const timer = new Vue({
       p3Info: {},
       p4Info: {},
       p5Info: {},
+      pChange: false,
+      r0: revs[0].innerHTML
     };
   },
   created(){
@@ -81,6 +84,10 @@ const timer = new Vue({
     },
     complete: function() {
       clearInterval(this.timerObj);
+    },
+    
+    Change(){
+      this.pChange = true;
     }
   },
   computed: {

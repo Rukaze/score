@@ -63,6 +63,7 @@ class GameController < ApplicationController
     @p3 = @players.find(@p3id)
     @p4 = @players.find(@p4id)
     @p5 = @players.find(@p5id)
+    @reserves = @players.where.not(id: [@p1id,@p2id,@p3id,@p4id,@p5id,])
   end
   
   def game_params

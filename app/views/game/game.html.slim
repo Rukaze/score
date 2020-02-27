@@ -1,10 +1,22 @@
-#timer
-  .timer
-    div#time v-text="formatTime" 
-    button v-on:click="start" v-if="!timerOn" Start
-    button v-on:click="stop" v-if="timerOn" Stop
-    button v-on:click="check" check
+#game
+  div v-text="formatTime" 
+  button v-on:click="start" v-if="!timerOn" Start
+  button v-on:click="stop" v-if="timerOn" Stop
   
+  div 
+  p 出場中の選手
+  p.m-0 v-text = 'p1Info.name'
+  p.m-0 v-text = 'p2Info.name'
+  p.m-0 v-text = 'p3Info.name'
+  p.m-0 v-text = 'p4Info.name'
+  p.m-0 v-text = 'p5Info.name'
+  button v-on:click = "Change" 選手交代
+  
+  div v-show = 'pChange'
+    p.m-0 v-text = 'p1Info.name'
+  
+  div
+  a v-text = 'r0'
 a type="text" id="min"  class="d-none" = @period
 a type="text" id="p1"  class="d-none" = @p1.id
 a type="text" id="p2"  class="d-none" = @p2.id
@@ -12,4 +24,6 @@ a type="text" id="p3"  class="d-none" = @p3.id
 a type="text" id="p4"  class="d-none" = @p4.id
 a type="text" id="p5"  class="d-none" = @p5.id
 
+- @reserves.each do |r|
+ a type="text"  class="d-none reserves" = r.id
 = javascript_pack_tag "game/game"
