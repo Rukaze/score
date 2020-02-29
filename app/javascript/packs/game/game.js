@@ -10,7 +10,9 @@ var orip2 = document.getElementById('p2');
 var orip3 = document.getElementById('p3');
 var orip4 = document.getElementById('p4');
 var orip5 = document.getElementById('p5');
-var revs = document.getElementsByClassName('reserves');
+var pls = document.getElementsByClassName('players');
+var array = Array.prototype.slice.call(pls);
+ 
 const game = new Vue({
   el: '#game',
   data() {
@@ -25,7 +27,7 @@ const game = new Vue({
       p4Info: {},
       p5Info: {},
       pChange: false,
-      r0: revs[0].innerHTML
+      reserves: {}
     };
   },
   created(){
@@ -87,6 +89,9 @@ const game = new Vue({
     },
     
     Change(){
+      this.reserves = array.filter(x => x.id !== this.p1Info.name && x.id !== this.p2Info.name 
+                                    && x.id !== this.p3Info.name && x.id !== this.p4Info.name
+                                    && x.id !== this.p5Info.name);
       this.pChange = true;
     }
   },

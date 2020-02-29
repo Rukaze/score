@@ -12,11 +12,9 @@
   p.m-0 v-text = 'p5Info.name'
   button v-on:click = "Change" 選手交代
   
-  div v-show = 'pChange'
-    p.m-0 v-text = 'p1Info.name'
   
   div
-  a v-text = 'r0'
+  li v-for="reserve in reserves"  v-text = "reserve.id"
 a type="text" id="min"  class="d-none" = @period
 a type="text" id="p1"  class="d-none" = @p1.id
 a type="text" id="p2"  class="d-none" = @p2.id
@@ -24,6 +22,8 @@ a type="text" id="p3"  class="d-none" = @p3.id
 a type="text" id="p4"  class="d-none" = @p4.id
 a type="text" id="p5"  class="d-none" = @p5.id
 
-- @reserves.each do |r|
- a type="text"  class="d-none reserves" = r.id
+- @players.each do |p|
+ a type="text"  id = "#{p.name}" class="d-none players" 
+
+
 = javascript_pack_tag "game/game"
