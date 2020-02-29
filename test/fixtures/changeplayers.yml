@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  inplayer: MyString
+  outplayer: MyString
+  clock: 1
+
+two:
+  inplayer: MyString
+  outplayer: MyString
+  clock: 1

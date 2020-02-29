@@ -1,0 +1,2 @@
+class Changeplayer < ApplicationRecord
+end

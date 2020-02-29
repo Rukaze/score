@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_25_084344) do
+ActiveRecord::Schema.define(version: 2020_02_29_070008) do
+
+  create_table "changeplayers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "inplayer"
+    t.string "outplayer"
+    t.integer "clock"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "game_id"
+  end
 
   create_table "employees", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"

@@ -1,29 +1,25 @@
 #game
+  
   div v-text="formatTime" 
   button v-on:click="start" v-if="!timerOn" Start
   button v-on:click="stop" v-if="timerOn" Stop
   
   div 
-  p 出場中の選手
-  p.m-0 v-text = 'p1Info.name'
-  p.m-0 v-text = 'p2Info.name'
-  p.m-0 v-text = 'p3Info.name'
-  p.m-0 v-text = 'p4Info.name'
-  p.m-0 v-text = 'p5Info.name'
-  button v-on:click = "Change" 選手交代
+    p 出場中の選手
+    li v-for="oncourtplayer in oncourt"  v-text = "oncourtplayer.name"
+    button v-on:click = "Change" 選手交代
+    
   
-  
-  div
-  li v-for="reserve in reserves"  v-text = "reserve.id"
+  div v-show = "pChange"
+    li v-for="reserve in bench"  v-text = "reserve.name"
 a type="text" id="min"  class="d-none" = @period
-a type="text" id="p1"  class="d-none" = @p1.id
-a type="text" id="p2"  class="d-none" = @p2.id
-a type="text" id="p3"  class="d-none" = @p3.id
-a type="text" id="p4"  class="d-none" = @p4.id
-a type="text" id="p5"  class="d-none" = @p5.id
+- @start5players.each do |s5p|
+  a type="text" id = s5p.id  class="start5player"
 
-- @players.each do |p|
- a type="text"  id = "#{p.name}" class="d-none players" 
+
+- @reserves.each do |r|
+ a type="text"  id = "#{r.id}" class="d-none reserves" 
+
 
 
 = javascript_pack_tag "game/game"

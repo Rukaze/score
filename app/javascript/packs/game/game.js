@@ -1,18 +1,29 @@
 import Vue from 'vue/dist/vue.esm';
-import BootstrapVue from 'bootstrap-vue'
+import BootstrapVue from 'bootstrap-vue';
 import axios from 'axios';
 
 Vue.use(BootstrapVue);
 
 var min = document.getElementById('min');
-var orip1 = document.getElementById('p1');
-var orip2 = document.getElementById('p2');
-var orip3 = document.getElementById('p3');
-var orip4 = document.getElementById('p4');
-var orip5 = document.getElementById('p5');
-var pls = document.getElementsByClassName('players');
-var array = Array.prototype.slice.call(pls);
- 
+
+var reserves = document.getElementsByClassName('reserves');
+var start5players = document.getElementsByClassName('start5player');
+var start5Array = new Array;
+Array.prototype.slice.call(start5players).forEach(function( startplayer ) {
+  axios.get(`game/getplayerInfo/${startplayer.id}.json`)
+    .then(res => {
+      console.log(res.data);
+      start5Array.push(res.data);
+    });
+  });
+var reserveArray = new Array;
+Array.prototype.slice.call(reserves).forEach(function( reserve ) {
+  axios.get(`game/getplayerInfo/${reserve.id}.json`)
+    .then(res => {
+      console.log(res.data);
+      reserveArray.push(res.data);
+    });
+  });
 const game = new Vue({
   el: '#game',
   data() {
@@ -21,41 +32,14 @@ const game = new Vue({
       sec: 0,
       timerOn: false,
       timerObj: null,
-      p1Info: {},
-      p2Info: {},
-      p3Info: {},
-      p4Info: {},
-      p5Info: {},
       pChange: false,
-      reserves: {}
+      bench: reserveArray,
+      oncourt: start5Array
     };
   },
   created(){
-    axios.get(`game/getplayerInfo/${orip1.innerHTML}.json`)
-      .then(res => {
-        console.log(res.data);
-        this.p1Info = res.data;
-      });
-    axios.get(`game/getplayerInfo/${orip2.innerHTML}.json`)
-      .then(res => {
-        console.log(res.data);
-        this.p2Info = res.data;
-      });
-    axios.get(`game/getplayerInfo/${orip3.innerHTML}.json`)
-      .then(res => {
-        console.log(res.data);
-        this.p3Info = res.data;
-      });
-    axios.get(`game/getplayerInfo/${orip4.innerHTML}.json`)
-      .then(res => {
-        console.log(res.data);
-        this.p4Info = res.data;
-      });
-    axios.get(`game/getplayerInfo/${orip5.innerHTML}.json`)
-      .then(res => {
-        console.log(res.data);
-        this.p5Info = res.data;
-      });
+   
+    
   },
   methods: {
     count() {
@@ -71,7 +55,7 @@ const game = new Vue({
 
     start() {
       let self = this;
-      this.timerObj = setInterval(function() {self.count()}, 1000)
+      this.timerObj = setInterval(function() {self.count()}, 1000);
       this.timerOn = true; 
     },
 
@@ -89,10 +73,9 @@ const game = new Vue({
     },
     
     Change(){
-      this.reserves = array.filter(x => x.id !== this.p1Info.name && x.id !== this.p2Info.name 
-                                    && x.id !== this.p3Info.name && x.id !== this.p4Info.name
-                                    && x.id !== this.p5Info.name);
       this.pChange = true;
+      clearInterval(this.timerObj);
+      this.timerOn = false;
     }
   },
   computed: {

@@ -52,18 +52,14 @@ class GameController < ApplicationController
     @game = Game.last
     @period = @game.period_time
     s = Start5.last
-    @p1id = s.p1
-    @p2id = s.p2
-    @p3id = s.p3
-    @p4id = s.p4
-    @p5id = s.p5
+    @start5players_id = [s.p1,s.p2,s.p3,s.p4,s.p5]
+    @start5players = Array.new
     @players = Player.where(team_name: @game.team)
-    @p1 = @players.find(@p1id)
-    @p2 = @players.find(@p2id)
-    @p3 = @players.find(@p3id)
-    @p4 = @players.find(@p4id)
-    @p5 = @players.find(@p5id)
-    @reserves = @players.where.not(id: [@p1id,@p2id,@p3id,@p4id,@p5id,])
+    @start5players_id.each do |pid|
+      player =  @players.find(pid)
+      @start5players.push(player)
+    end
+    @reserves = @players.where.not(id: @start5players_id)
   end
   
   def game_params
