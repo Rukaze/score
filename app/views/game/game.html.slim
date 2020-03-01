@@ -1,5 +1,4 @@
 #game
-  
   div v-text="formatTime" 
   button v-on:click="start" v-if="!timerOn" Start
   button v-on:click="stop" v-if="timerOn" Stop
@@ -7,18 +6,22 @@
   div 
     p 出場中の選手
     li v-for="oncourtplayer in oncourt"  v-text = "oncourtplayer.name"
-    button v-on:click = "Change" 選手交代
+    button v-on:click = "playerChangebtn" 選手交代
     
   
-  div v-show = "pChange"
-    li v-for="reserve in bench"  v-text = "reserve.name"
+  div v-show = "playerChangebool"
+    button v-for="reserve in bench" v-on:click = "inPlayerbtn(reserve.id)" v-text = "reserve.name"
+  
+  div v-show = "outPlayerbool"
+    button v-for="oncourtplayer in oncourt" v-on:click = "outPlayerbtn(oncourtplayer.id)" v-text = "oncourtplayer.name"
+  
 a type="text" id="min"  class="d-none" = @period
 - @start5players.each do |s5p|
   a type="text" id = s5p.id  class="start5player"
 
 
-- @reserves.each do |r|
- a type="text"  id = "#{r.id}" class="d-none reserves" 
+- @players.each do |p|
+ a type="text"  id = p.id class="d-none players" 
 
 
 

@@ -6,7 +6,7 @@ Vue.use(BootstrapVue);
 
 var min = document.getElementById('min');
 
-var reserves = document.getElementsByClassName('reserves');
+var players = document.getElementsByClassName('players');
 var start5players = document.getElementsByClassName('start5player');
 var start5Array = new Array;
 Array.prototype.slice.call(start5players).forEach(function( startplayer ) {
@@ -16,12 +16,12 @@ Array.prototype.slice.call(start5players).forEach(function( startplayer ) {
       start5Array.push(res.data);
     });
   });
-var reserveArray = new Array;
-Array.prototype.slice.call(reserves).forEach(function( reserve ) {
-  axios.get(`game/getplayerInfo/${reserve.id}.json`)
+var playerArray = new Array;
+Array.prototype.slice.call(players).forEach(function( player ) {
+  axios.get(`game/getplayerInfo/${player.id}.json`)
     .then(res => {
       console.log(res.data);
-      reserveArray.push(res.data);
+      playerArray.push(res.data);
     });
   });
 const game = new Vue({
@@ -32,9 +32,11 @@ const game = new Vue({
       sec: 0,
       timerOn: false,
       timerObj: null,
-      pChange: false,
-      bench: reserveArray,
-      oncourt: start5Array
+      playerChangebool: false,
+      outPlayerbool: false,
+      bench: playerArray,
+      oncourt: start5Array,
+      inPlayer: {},
     };
   },
   created(){
@@ -72,10 +74,25 @@ const game = new Vue({
       clearInterval(this.timerObj);
     },
     
-    Change(){
-      this.pChange = true;
+    playerChangebtn(){
+      this.bench = playerArray.filter((n) => n.id !== this.oncourt[0].id && n.id !== this.oncourt[1].id &&
+                                       n.id !== this.oncourt[2].id &&n.id !== this.oncourt[3].id &&
+                                       n.id !== this.oncourt[4].id);
+      this.playerChangebool = true;
       clearInterval(this.timerObj);
       this.timerOn = false;
+    },
+    
+    inPlayerbtn(id){
+      this.inPlayer = playerArray.find((n) => n.id === id);
+      this.outPlayerbool = true;
+    },
+    
+    outPlayerbtn(id){
+      this.oncourt = this.oncourt.filter((n) => n.id !== id);
+      this.oncourt.push(this.inPlayer);
+      this.outPlayerbool = false;
+      this.playerChangebool = false;
     }
   },
   computed: {
