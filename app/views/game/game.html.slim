@@ -10,9 +10,11 @@
     
   
   div v-show = "playerChangebool"
+    p 入る選手
     button v-for="reserve in bench" v-on:click = "inPlayerbtn(reserve.id)" v-text = "reserve.name"
   
   div v-show = "outPlayerbool"
+    p 下がる選手
     button v-for="oncourtplayer in oncourt" v-on:click = "outPlayerbtn(oncourtplayer.id)" v-text = "oncourtplayer.name"
   
 a type="text" id="min"  class="d-none" = @period
