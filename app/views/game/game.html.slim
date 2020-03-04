@@ -1,22 +1,34 @@
 #game
-  div v-text="formatTime" 
+  div
+  h2 v-text="formatTime" 
   button v-on:click="start" v-if="!timerOn" Start
   button v-on:click="stop" v-if="timerOn" Stop
-  
+  br
+  a 得点:
+  a v-text="score"
   div 
-    p 出場中の選手
-    li v-for="oncourtplayer in oncourt"  v-text = "oncourtplayer.name"
-    button v-on:click = "playerChangebtn" 選手交代
-    
+    a 出場中の選手(クリックでスコア)
+    br
+    button.m-1 v-for="oncourtplayer in oncourt" v-on:click="scorings(oncourtplayer.id)" v-text = "oncourtplayer.name"
+    button.m-1 v-if = "Scoringbool == false" v-on:click = "playerChangebtn" 選手交代
   
+  div v-show="Scoringbool"
+    p v-text="playing_player.name"
+    button.m-1 v-for="(play,index) in plays" v-on:click="Play(index)"  v-text = "play.kinds"
+    
+    
   div v-show = "playerChangebool"
-    p 入る選手
-    button v-for="reserve in bench" v-on:click = "inPlayerbtn(reserve.id)" v-text = "reserve.name"
+    a 入る選手 
+    br
+    button.m-1 v-for="reserve in bench" v-on:click = "inPlayerbtn(reserve.id)" v-text = "reserve.name"
   
   div v-show = "outPlayerbool"
-    p 下がる選手
-    button v-for="oncourtplayer in oncourt" v-on:click = "outPlayerbtn(oncourtplayer.id)" v-text = "oncourtplayer.name"
+    a 下がる選手
+    br
+    button.m-1 v-for="oncourtplayer in oncourt" v-on:click = "outPlayerbtn(oncourtplayer.id)" v-text = "oncourtplayer.name"
   
+  div v-show = "Cancellbool"
+    button.mt-1 v-on:click = "Cancell" キャンセル
 a type="text" id="min"  class="d-none" = @period
 - @start5players.each do |s5p|
   a type="text" id = s5p.id  class="start5player"

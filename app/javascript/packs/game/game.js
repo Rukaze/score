@@ -34,9 +34,19 @@ const game = new Vue({
       timerObj: null,
       playerChangebool: false,
       outPlayerbool: false,
+      Scoringbool: false,
+      Cancellbool:false,
+      notscoringtime: true,
       bench: playerArray,
       oncourt: start5Array,
       inPlayer: {},
+      
+      plays: [{kinds:"FGmake"},{kinds:"FGmiss"},{kinds:"3Pmake"},{kinds:"3Pmiss"},{kinds:"FTmake"},
+              {kinds:"FTmiss"},{kinds:"DefReb"},{kinds:"OfeReb"},{kinds:"Assist"},{kinds:"Block"},
+              {kinds:"steel"},{kinds:"TO"},{kinds:"PF"}],
+      playing_player:{},
+      score: 0,
+      opp_score: 0,
     };
   },
   created(){
@@ -81,18 +91,53 @@ const game = new Vue({
       this.playerChangebool = true;
       clearInterval(this.timerObj);
       this.timerOn = false;
+      this.Cancellbool = true;
     },
     
     inPlayerbtn(id){
       this.inPlayer = playerArray.find((n) => n.id === id);
       this.outPlayerbool = true;
+      
     },
     
     outPlayerbtn(id){
+      var outPlayer = this.oncourt.find((n) => n.id === id);
       this.oncourt = this.oncourt.filter((n) => n.id !== id);
       this.oncourt.push(this.inPlayer);
       this.outPlayerbool = false;
       this.playerChangebool = false;
+      var gametime_allsecond = this.min * 60 + this.sec;
+      axios.post(`game/changeplayer/${this.inPlayer.id}/${outPlayer.id}/${gametime_allsecond}`);
+    },
+    
+    Cancell(){
+      this.outPlayerbool = false;
+      this.playerChangebool = false;
+      this.notscoringtime = true;
+      this.Scoringbool = false;
+      this.Cancellbool = false;
+    },
+    
+    scorings(id){
+      this.Cancellbool = true;
+      this.Scoringbool = true;
+      this.playing_player = this.oncourt.find((n) => n.id === id);
+    },
+    
+    Play(id){
+      console.log(this.playing_player.name);
+      axios.post(`game/play_record/${this.playing_player.id}/${id}`);
+      if(id == 0){
+        this.score += 2;
+      }
+      if(id == 2){
+        this.score += 3;
+      }
+      if(id == 4){
+        this.score += 1;
+      }
+      this.Scoringbool = false;
+      this.notscoringtime = true;
     }
   },
   computed: {

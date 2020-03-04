@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  kind: MyString
+  player_id: MyString
+  game_id: MyString
+  quarter: MyString
+
+two:
+  kind: MyString
+  player_id: MyString
+  game_id: MyString
+  quarter: MyString
