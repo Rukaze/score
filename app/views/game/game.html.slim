@@ -30,7 +30,7 @@
     a プレイヤー名：
     a v-text="playing_player.name"
     br
-    button.m-1 v-for="(play,index) in plays" v-on:click="Play(index)"  v-text = "play.kinds"
+    button.m-1 v-for="(play,index) in plays"  v-on:click="Play(index)"  v-text = "play.kinds"
     
     
   div v-show = "playerChangebool"
@@ -48,14 +48,14 @@
     
   div
     p プレー履歴（クリックでキャンセル）
-    a[v-for="(record,index) in play_record" v-on:click = "play_delete(index)"]
+    a[v-for="(record,index) in play_record" v-if="index <= 4" v-on:click = "play_delete(index)"]
       button.mb-1
         | {{index + 1}} {{record.player_name}}  {{record.play}} 
       br
       
   div.text-right.mr-4
     button v-on:click="nextquater" 次のクォーターへ
-    button 試合終了
+    button v-on:click="finish" 試合終了
 a type="text" id="min"  class="d-none" = @period
 - @start5players.each do |s5p|
   a type="text" id = s5p.id  class="start5player"

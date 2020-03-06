@@ -14,7 +14,9 @@ Rails.application.routes.draw do
    get 'start5', to:'game#start5'
    get 'game/getplayerInfo/:id', to:'game#player_info'
    post 'game/start5_confirm/:p1id/:p2id/:p3id/:p4id/:p5id', to:'game#start5_confirm'
-   post 'game/changeplayer/:inPlayer_id/:outPlayer_id/:clock', to:'game#changeplayer_command'
-   post 'game/play_record/:player_id/:play_id', to:'game#play_record'
-   post 'game/nextquater/:p1_id/:p2_id/:p3_id/:p4_id/:p5_id', to:'game#nextquater'
+   #post 'game/changeplayer/:inPlayer_id/:outPlayer_id/:clock', to:'game#changeplayer_command'
+   #post 'game/play_record/:player_id/:play_id', to:'game#play_record'
+   #post 'game/nextquater/:p1_id/:p2_id/:p3_id/:p4_id/:p5_id', to:'game#nextquater'
+   post 'game/finish/:score/:opp_score', to:'game#finish'
+   post 'game/stuts_record/:p_id/:p_name/:a/:b/:c/:d/:e/:f/:g/:h/:i/:j/:k/:l/:m', to:'game#stuts_record'
 end

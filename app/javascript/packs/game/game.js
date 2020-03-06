@@ -9,7 +9,7 @@ var min = document.getElementById('min');
 var players = document.getElementsByClassName('players');
 var start5players = document.getElementsByClassName('start5player');
 var start5Array = new Array;
-Array.prototype.slice.call(start5players).forEach(function( startplayer ) {
+Array.prototype.slice.call(start5players).forEach(startplayer =>{
   axios.get(`game/getplayerInfo/${startplayer.id}.json`)
     .then(res => {
       console.log(res.data);
@@ -17,7 +17,7 @@ Array.prototype.slice.call(start5players).forEach(function( startplayer ) {
     });
   });
 var playerArray = new Array;
-Array.prototype.slice.call(players).forEach(function( player ) {
+Array.prototype.slice.call(players).forEach(player=> {
   axios.get(`game/getplayerInfo/${player.id}.json`)
     .then(res => {
       console.log(res.data);
@@ -48,7 +48,9 @@ const game = new Vue({
       score: 0,
       opp_score: 0,
       quater: 1,
+      change_record:[],
       play_record:[],
+      five_record:[],
       play:{}
     };
   },
@@ -80,9 +82,6 @@ const game = new Vue({
       
     },
     
-    check() {
-      axios.post(`game/check/${this.min}/${this.sec}`);
-    },
     complete: function() {
       clearInterval(this.timerObj);
     },
@@ -110,7 +109,7 @@ const game = new Vue({
       this.outPlayerbool = false;
       this.playerChangebool = false;
       var gametime_allsecond = this.min * 60 + this.sec;
-      axios.post(`game/changeplayer/${this.inPlayer.id}/${outPlayer.id}/${gametime_allsecond}`);
+      this.change_record.push({inplayer:this.inPlayer,outplayer:outPlayer,clock: gametime_allsecond});
     },
     
     Cancell(){
@@ -129,7 +128,7 @@ const game = new Vue({
     
     Play(id){
       this.play = this.plays[id].kinds;
-      axios.post(`game/play_record/${this.playing_player.id}/${id}`);
+      
       if(id == 0){
         this.score += 2;
       }
@@ -142,10 +141,12 @@ const game = new Vue({
       this.Scoringbool = false;
       this.Cancellbool = false;
       this.play_record.unshift({play:this.play,player_id:this.playing_player.id,player_name:this.playing_player.name});
+      
     },
     
     play_delete(number){
       this.play_record = this.play_record.filter((n,index) => index !== number);
+      
     },
     
     score_plus(){
@@ -166,8 +167,19 @@ const game = new Vue({
       this.sec = 0;
       clearInterval(this.timerObj);
       this.timerOn = false;
-      axios.post(`game/nextquater/${this.oncourt[0].id}/${this.oncourt[1].id}/${this.oncourt[2].id}/${this.oncourt[3].id}/${this.oncourt[4].id}`);
       this.quater += 1;
+    },
+    
+    finish(){
+      axios.post(`game/finish/${this.score}/${this.opp_score}`);
+      playerArray.forEach(player =>{
+        this.c = [];
+        this.plays.forEach((play) =>{
+          this.each_play = this.play_record.filter((n) => n.player_id === player.id && n.play === play.kinds);
+          this.c.push(this.each_play.length);
+        });
+        axios.post(`game/stuts_record/${player.id}/${player.name}/${this.c[0]}/${this.c[1]}/${this.c[2]}/${this.c[3]}/${this.c[4]}/${this.c[5]}/${this.c[6]}/${this.c[7]}/${this.c[8]}/${this.c[9]}/${this.c[10]}/${this.c[11]}/${this.c[12]}`);
+      });
     }
   },
   
