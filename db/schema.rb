@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_04_030744) do
+ActiveRecord::Schema.define(version: 2020_03_05_090254) do
 
   create_table "changeplayers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "inplayer"
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 2020_03_04_030744) do
     t.integer "period_time"
     t.string "min"
     t.string "sec"
+    t.string "opp_name"
+    t.integer "opp_score"
   end
 
   create_table "players", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -63,6 +65,26 @@ ActiveRecord::Schema.define(version: 2020_03_04_030744) do
     t.string "p3"
     t.string "p4"
     t.string "p5"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "stuts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "player_id"
+    t.string "game_id"
+    t.integer "FGmake"
+    t.integer "FGmiss"
+    t.integer "Deepmake"
+    t.integer "Deepmiss"
+    t.integer "FTmake"
+    t.integer "FTmiss"
+    t.integer "DefReb"
+    t.integer "OffReb"
+    t.integer "Assist"
+    t.integer "Block"
+    t.integer "steal"
+    t.integer "TO"
+    t.integer "PF"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

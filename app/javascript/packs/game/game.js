@@ -36,17 +36,20 @@ const game = new Vue({
       outPlayerbool: false,
       Scoringbool: false,
       Cancellbool:false,
-      notscoringtime: true,
       bench: playerArray,
       oncourt: start5Array,
       inPlayer: {},
       
       plays: [{kinds:"FGmake"},{kinds:"FGmiss"},{kinds:"3Pmake"},{kinds:"3Pmiss"},{kinds:"FTmake"},
-              {kinds:"FTmiss"},{kinds:"DefReb"},{kinds:"OfeReb"},{kinds:"Assist"},{kinds:"Block"},
-              {kinds:"steel"},{kinds:"TO"},{kinds:"PF"}],
+              {kinds:"FTmiss"},{kinds:"DefReb"},{kinds:"OffReb"},{kinds:"Assist"},{kinds:"Block"},
+              {kinds:"steal"},{kinds:"TO"},{kinds:"PF"}],
+    
       playing_player:{},
       score: 0,
       opp_score: 0,
+      quater: 1,
+      play_record:[],
+      play:{}
     };
   },
   created(){
@@ -113,7 +116,7 @@ const game = new Vue({
     Cancell(){
       this.outPlayerbool = false;
       this.playerChangebool = false;
-      this.notscoringtime = true;
+      
       this.Scoringbool = false;
       this.Cancellbool = false;
     },
@@ -125,7 +128,7 @@ const game = new Vue({
     },
     
     Play(id){
-      console.log(this.playing_player.name);
+      this.play = this.plays[id].kinds;
       axios.post(`game/play_record/${this.playing_player.id}/${id}`);
       if(id == 0){
         this.score += 2;
@@ -137,9 +140,37 @@ const game = new Vue({
         this.score += 1;
       }
       this.Scoringbool = false;
-      this.notscoringtime = true;
+      this.Cancellbool = false;
+      this.play_record.unshift({play:this.play,player_id:this.playing_player.id,player_name:this.playing_player.name});
+    },
+    
+    play_delete(number){
+      this.play_record = this.play_record.filter((n,index) => index !== number);
+    },
+    
+    score_plus(){
+      this.score += 1;
+    },
+    score_minus(){
+      this.score -= 1;
+    },
+    opp_score_plus(){
+      this.opp_score += 1;
+    },
+    opp_score_minus(){
+      this.opp_score -= 1;
+    },
+    
+    nextquater(){
+      this.min = min.innerHTML;
+      this.sec = 0;
+      clearInterval(this.timerObj);
+      this.timerOn = false;
+      axios.post(`game/nextquater/${this.oncourt[0].id}/${this.oncourt[1].id}/${this.oncourt[2].id}/${this.oncourt[3].id}/${this.oncourt[4].id}`);
+      this.quater += 1;
     }
   },
+  
   computed: {
     formatTime: function() {
       let timeStrings = [

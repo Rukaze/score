@@ -1,0 +1,35 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player_id: MyString
+  game_id: MyString
+  FGmake: 1
+  FGmiss: 1
+  3Pmake: 1
+  3Pmiss: 1
+  FTmake: 1
+  FTmiss: 1
+  DefReb: 1
+  OffReb: 1
+  Assist: 1
+  Block: 1
+  steal: 1
+  TO: 1
+  PF: 1
+
+two:
+  player_id: MyString
+  game_id: MyString
+  FGmake: 1
+  FGmiss: 1
+  3Pmake: 1
+  3Pmiss: 1
+  FTmake: 1
+  FTmiss: 1
+  DefReb: 1
+  OffReb: 1
+  Assist: 1
+  Block: 1
+  steal: 1
+  TO: 1
+  PF: 1

@@ -1,19 +1,35 @@
-#game
+#game.mx-3
   div
   h2 v-text="formatTime" 
   button v-on:click="start" v-if="!timerOn" Start
   button v-on:click="stop" v-if="timerOn" Stop
   br
-  a 得点:
-  a v-text="score"
-  div 
+  a.h5 v-text = "quater"
+  a.h5 Q    
+  a.h5 v-text="score"
+  a  - 
+  a.h5 v-text="opp_score"
+  br
+  a 得点調整（味方は自動的に入ります）
+  br
+  a 味方
+  button v-on:click = "score_plus" +
+  button.mr-2 v-on:click = "score_minus" -
+  a 敵
+  button v-on:click = "opp_score_plus" +
+  button v-on:click = "opp_score_minus" -
+  
+  div v-if = "playerChangebool == false"
     a 出場中の選手(クリックでスコア)
     br
     button.m-1 v-for="oncourtplayer in oncourt" v-on:click="scorings(oncourtplayer.id)" v-text = "oncourtplayer.name"
-    button.m-1 v-if = "Scoringbool == false" v-on:click = "playerChangebtn" 選手交代
-  
+
+  button.m-1 v-if = "Scoringbool == false" v-on:click = "playerChangebtn" 選手交代
+    
   div v-show="Scoringbool"
-    p v-text="playing_player.name"
+    a プレイヤー名：
+    a v-text="playing_player.name"
+    br
     button.m-1 v-for="(play,index) in plays" v-on:click="Play(index)"  v-text = "play.kinds"
     
     
@@ -29,6 +45,17 @@
   
   div v-show = "Cancellbool"
     button.mt-1 v-on:click = "Cancell" キャンセル
+    
+  div
+    p プレー履歴（クリックでキャンセル）
+    a[v-for="(record,index) in play_record" v-on:click = "play_delete(index)"]
+      button.mb-1
+        | {{index + 1}} {{record.player_name}}  {{record.play}} 
+      br
+      
+  div.text-right.mr-4
+    button v-on:click="nextquater" 次のクォーターへ
+    button 試合終了
 a type="text" id="min"  class="d-none" = @period
 - @start5players.each do |s5p|
   a type="text" id = s5p.id  class="start5player"

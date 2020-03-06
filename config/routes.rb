@@ -16,4 +16,5 @@ Rails.application.routes.draw do
    post 'game/start5_confirm/:p1id/:p2id/:p3id/:p4id/:p5id', to:'game#start5_confirm'
    post 'game/changeplayer/:inPlayer_id/:outPlayer_id/:clock', to:'game#changeplayer_command'
    post 'game/play_record/:player_id/:play_id', to:'game#play_record'
+   post 'game/nextquater/:p1_id/:p2_id/:p3_id/:p4_id/:p5_id', to:'game#nextquater'
 end

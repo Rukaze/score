@@ -49,17 +49,17 @@ class GameController < ApplicationController
   end
   
   def game
-    @game = Game.last
-    @period = @game.period_time
+    game = Game.last
+    @period = game.period_time
     s = Start5.last
     start5players_id = [s.p1,s.p2,s.p3,s.p4,s.p5]
-    gametime_allsecond = @period.to_i * 60
+    period_time_allsecond = @period.to_i * 60
     start5players_id.each do |s|
-      start5player = Changeplayer.new(inplayer: s, clock: gametime_allsecond , game_id: @game.id)
+      start5player = Changeplayer.new(inplayer: s, clock: period_time_allsecond , game_id: game.id)
       start5player.save
     end
     @start5players = Array.new
-    @players = Player.where(team_name: @game.team)
+    @players = Player.where(team_name: game.team)
     start5players_id.each do |pid|
       player =  @players.find(pid)
       @start5players.push(player)
@@ -83,9 +83,17 @@ class GameController < ApplicationController
     Scoring.new(kind: play, player_id: player.id, game_id: Game.last.id).save
   end
   
+  def nextquater
+    game = Game.last
+    oncourts_id = [params[:p1_id],params[:p2_id],params[:p3_id],params[:p4_id],params[:p5_id]]
+    oncourts_id.each do |o_id|
+      Changeplayer.new(inplayer: o_id, clock: game.period_time.to_i * 60, game_id: game.id).save
+    end
+  end
+  
   def plays_array
     @play_kinds = ["FGmake","FGmiss","3Pmake","3Pmiss","FTmake","FTmiss","DefReb",
-                   "OfeReb","Assist","Block","steel","TO","PF"]
+                   "OffReb","Assist","Block","steal","TO","PF"]
   end
   
   def game_params

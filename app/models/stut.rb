@@ -1,0 +1,2 @@
+class Stut < ApplicationRecord
+end
