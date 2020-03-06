@@ -43,7 +43,6 @@ const game = new Vue({
       plays: [{kinds:"FGmake"},{kinds:"FGmiss"},{kinds:"3Pmake"},{kinds:"3Pmiss"},{kinds:"FTmake"},
               {kinds:"FTmiss"},{kinds:"DefReb"},{kinds:"OffReb"},{kinds:"Assist"},{kinds:"Block"},
               {kinds:"steal"},{kinds:"TO"},{kinds:"PF"}],
-    
       playing_player:{},
       score: 0,
       opp_score: 0,
@@ -55,7 +54,7 @@ const game = new Vue({
     };
   },
   created(){
-   
+    
     
   },
   methods: {
@@ -103,13 +102,13 @@ const game = new Vue({
     },
     
     outPlayerbtn(id){
-      var outPlayer = this.oncourt.find((n) => n.id === id);
+      this.outPlayer = this.oncourt.find((n) => n.id === id);
       this.oncourt = this.oncourt.filter((n) => n.id !== id);
       this.oncourt.push(this.inPlayer);
       this.outPlayerbool = false;
       this.playerChangebool = false;
-      var gametime_allsecond = this.min * 60 + this.sec;
-      this.change_record.push({inplayer:this.inPlayer,outplayer:outPlayer,clock: gametime_allsecond});
+      this.gametime_allsecond = this.min * 60 + this.sec;
+      this.change_record.push({inplayer_id:this.inPlayer.id,outplayer_id:this.outPlayer.id,clock: this.gametime_allsecond});
     },
     
     Cancell(){
@@ -163,14 +162,34 @@ const game = new Vue({
     },
     
     nextquater(){
+      if(this.min != 0 || this.sec != 0){
+        this.gametime_allsecond = this.min * 60 + this.sec;
+        this.oncourt.forEach((s) =>{
+          this.change_record.push({inplayer_id: "none", outplayer_id: s.id, clock: this.gametime_allsecond});
+        });
+      }
       this.min = min.innerHTML;
       this.sec = 0;
       clearInterval(this.timerObj);
       this.timerOn = false;
       this.quater += 1;
+      this.gametime_allsecond = min.innerHTML * 60 + this.sec;
+      this.oncourt.forEach((s) =>{
+        this.change_record.push({inplayer_id: s.id, outplayer_id: "none", clock: this.gametime_allsecond});
+      });
     },
     
     finish(){
+      if(this.min != 0 || this.sec != 0){
+        this.gametime_allsecond = this.min * 60 + this.sec;
+        this.oncourt.forEach((s) =>{
+          this.change_record.push({inplayer_id: "none", outplayer_id: s.id, clock: this.gametime_allsecond});
+        });
+      }
+      this.gametime_allsecond = min.innerHTML * 60 ;
+      start5Array.forEach((o) => {
+        this.change_record.push({inplayer_id: o.id, outplayer_id: "none", clock: this.gametime_allsecond});
+      });
       axios.post(`game/finish/${this.score}/${this.opp_score}`);
       playerArray.forEach(player =>{
         this.c = [];
@@ -178,7 +197,18 @@ const game = new Vue({
           this.each_play = this.play_record.filter((n) => n.player_id === player.id && n.play === play.kinds);
           this.c.push(this.each_play.length);
         });
-        axios.post(`game/stuts_record/${player.id}/${player.name}/${this.c[0]}/${this.c[1]}/${this.c[2]}/${this.c[3]}/${this.c[4]}/${this.c[5]}/${this.c[6]}/${this.c[7]}/${this.c[8]}/${this.c[9]}/${this.c[10]}/${this.c[11]}/${this.c[12]}`);
+        this.oncourt_data = this.change_record.filter((n) => n.inplayer_id === player.id);
+        this.oncourt_time = 0;
+        this.oncourt_data.forEach((o) =>{
+          this.oncourt_time += o.clock;
+        });
+        this.bench_data = this.change_record.filter((n) => n.outplayer_id === player.id);
+        this.bench_time = 0;
+        this.bench_data.forEach((b) =>{
+          this.bench_time += b.clock;
+        });
+        this.playing_time = this.oncourt_time - this.bench_time;
+        axios.post(`game/stuts_record/${player.id}/${player.name}/${this.playing_time}/${this.c[0]}/${this.c[1]}/${this.c[2]}/${this.c[3]}/${this.c[4]}/${this.c[5]}/${this.c[6]}/${this.c[7]}/${this.c[8]}/${this.c[9]}/${this.c[10]}/${this.c[11]}/${this.c[12]}`);
       });
     }
   },

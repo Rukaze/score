@@ -18,5 +18,5 @@ Rails.application.routes.draw do
    #post 'game/play_record/:player_id/:play_id', to:'game#play_record'
    #post 'game/nextquater/:p1_id/:p2_id/:p3_id/:p4_id/:p5_id', to:'game#nextquater'
    post 'game/finish/:score/:opp_score', to:'game#finish'
-   post 'game/stuts_record/:p_id/:p_name/:a/:b/:c/:d/:e/:f/:g/:h/:i/:j/:k/:l/:m', to:'game#stuts_record'
+   post 'game/stuts_record/:p_id/:p_name/:playing_time/:a/:b/:c/:d/:e/:f/:g/:h/:i/:j/:k/:l/:m', to:'game#stuts_record'
 end

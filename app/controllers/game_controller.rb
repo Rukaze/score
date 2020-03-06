@@ -100,8 +100,9 @@ class GameController < ApplicationController
   end
   
   def stuts_record
-    game = Game.last
-    Stut.new(player_id: params[:p_id], player_name: params[:p_name], game_id: game.id, team_name: game.team, FGmake: params[:a].to_i,
+    game =Game.last
+    Stut.new(player_id: params[:p_id], player_name: params[:p_name], game_id: game.id, team_name: game.team, 
+             playingtime: params[:playing_time].to_i,FGmake: params[:a].to_i,
              FGmiss: params[:b].to_i, Deepmake: params[:c].to_i, Deepmiss: params[:d].to_i, FTmake: params[:e].to_i,
              FTmiss: params[:f].to_i, DefReb: params[:g].to_i, OffReb: params[:h].to_i, Assist: params[:i].to_i,
              Block: params[:j].to_i, steal: params[:k].to_i, TO: params[:l].to_i, PF: params[:m].to_i).save
