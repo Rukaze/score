@@ -5,74 +5,43 @@ import axios from 'axios';
 Vue.use(BootstrapVue);
 
 
-
-const start5 = new Vue({
+var players = document.getElementsByClassName('players');
+var playerArray = new Array;
+Array.prototype.slice.call(players).forEach(player=> {
+  axios.get(`game/getplayerInfo/${player.id}.json`)
+    .then(res => {
+      console.log(res.data);
+      playerArray.push(res.data);
+    });
+  });
+new Vue({
   el: '#start5',
   data: {
-    p1Info: 'none',
-    p2Info: 'none',
-    p3Info: 'none',
-    p4Info: 'none',
-    p5Info: 'none',
-    p1exist: false,
-    p2exist: false,
-    p3exist: false,
-    p4exist: false,
-    p5exist: false,
-    start5: false
+    not_chosen_players: playerArray,
+    start5Array: [],
+    occupied:false
   },
   methods: {
-    setStart5(id){
-      axios.get(`game/getplayerInfo/${id}.json`)
-        .then(res => {
-          console.log(res.data);
-            if (this.p1Info == 'none' && this.p1Info.id != res.data.id && this.p2Info.id != res.data.id && this.p3Info.id != res.data.id && this.p4Info.id != res.data.id && this.p5Info.id != res.data.id){
-              this.p1Info = res.data;
-              this.p1exist = true;
-            } else{if(this.p2Info == 'none' && this.p1Info.id != res.data.id && this.p2Info.id != res.data.id && this.p3Info.id != res.data.id && this.p4Info.id != res.data.id && this.p5Info.id != res.data.id){
-              this.p2Info = res.data;
-              this.p2exist = true;
-              } else{if(this.p3Info == 'none' && this.p1Info.id != res.data.id && this.p2Info.id != res.data.id && this.p3Info.id != res.data.id && this.p4Info.id != res.data.id && this.p5Info.id != res.data.id){
-              this.p3Info = res.data;
-              this.p3exist = true;
-                } else{if(this.p4Info == 'none' && this.p1Info.id != res.data.id && this.p2Info.id != res.data.id && this.p3Info.id != res.data.id && this.p4Info.id != res.data.id && this.p5Info.id != res.data.id){
-              this.p4Info = res.data;
-              this.p4exist = true;
-                  }  else{if(this.p5Info == 'none' && this.p1Info.id != res.data.id && this.p2Info.id != res.data.id && this.p3Info.id != res.data.id && this.p4Info.id != res.data.id && this.p5Info.id != res.data.id){
-              this.p5Info = res.data;
-              this.p5exist = true;
-            }}}}}});
+    set_start5(id,name){
+      if(this.start5Array.length <= 4 ){
+        this.start5Array.push({id: id,name:name});
+        this.not_chosen_players = this.not_chosen_players.filter((n) => n.id !== id);
+      }
+      if(this.start5Array.length == 5){
+        this.occupied = true;
+      }
     },
-    p1cancel(){
-      this.p1Info = 'none';
-      this.p1exist = false;
-      this.start5 = false;
-    },
-    p2cancel(){
-      this.p2Info = 'none';
-      this.p2exist = false;
-      this.start5 = false;
-    },
-    p3cancel(){
-      this.p3Info = 'none';
-      this.p3exist = false;
-      this.start5 = false;
-    },
-    p4cancel(){
-      this.p4Info = 'none';
-      this.p4exist = false;
-      this.start5 = false;
-    },
-    p5cancel(){
-      this.p5Info = 'none';
-      this.p5exist = false;
-      this.start5 = false;
+    
+    cancell(id,name){
+      this.start5Array = this.start5Array.filter((n) => n.id !== id);
+      this.not_chosen_players.push({id:id,name:name});
+      this.occupied = false;
     },
     start5Confirm(){
-      axios.post(`game/start5_confirm/${this.p1Info.id}/${this.p2Info.id}/${this.p3Info.id}/${this.p4Info.id}/${this.p5Info.id}`);
-      this.start5 = true;
+      axios.post(`game/start5_confirm/${this.start5Array[0].id}/${this.start5Array[1].id}/${this.start5Array[2].id}/${this.start5Array[3].id}/${this.start5Array[4].id}`);
+      
     }
-  }
+  },
   
   
   

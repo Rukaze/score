@@ -24,7 +24,7 @@ Array.prototype.slice.call(players).forEach(player=> {
       playerArray.push(res.data);
     });
   });
-const game = new Vue({
+new Vue({
   el: '#game',
   data() {
     return {
@@ -49,7 +49,6 @@ const game = new Vue({
       quater: 1,
       change_record:[],
       play_record:[],
-      five_record:[],
       play:{}
     };
   },
