@@ -19,7 +19,8 @@ new Vue({
   data: {
     not_chosen_players: playerArray,
     start5Array: [],
-    occupied:false
+    occupied:false,
+    toGame: false
   },
   methods: {
     set_start5(id,name){
@@ -36,10 +37,11 @@ new Vue({
       this.start5Array = this.start5Array.filter((n) => n.id !== id);
       this.not_chosen_players.push({id:id,name:name});
       this.occupied = false;
+      this.toGame = false;
     },
     start5Confirm(){
       axios.post(`game/start5_confirm/${this.start5Array[0].id}/${this.start5Array[1].id}/${this.start5Array[2].id}/${this.start5Array[3].id}/${this.start5Array[4].id}`);
-      
+      this.toGame = true;
     }
   },
   

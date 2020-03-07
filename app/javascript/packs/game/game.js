@@ -39,7 +39,6 @@ new Vue({
       bench: playerArray,
       oncourt: start5Array,
       inPlayer: {},
-      
       plays: [{kinds:"FGmake"},{kinds:"FGmiss"},{kinds:"3Pmake"},{kinds:"3Pmiss"},{kinds:"FTmake"},
               {kinds:"FTmiss"},{kinds:"DefReb"},{kinds:"OffReb"},{kinds:"Assist"},{kinds:"Block"},
               {kinds:"steal"},{kinds:"TO"},{kinds:"PF"}],

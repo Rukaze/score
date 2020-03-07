@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_06_023204) do
+ActiveRecord::Schema.define(version: 2020_03_07_072356) do
 
   create_table "changeplayers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "inplayer"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 2020_03_06_023204) do
     t.integer "playingtime"
     t.string "player_name"
     t.string "team_name"
+    t.integer "point"
   end
 
   create_table "teams", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

@@ -32,6 +32,37 @@ class HomeController < ApplicationController
   def team_page
     @team = Team.find_by(id: params[:id])
     @players = Player.where(team_name: @team.team_name)
+    @player_stuts_array = []
+    @players.each do |p|
+      each_game_stuts = Stut.where(player_id: p.id)
+      play_times = each_game_stuts.where('playingtime > 0').count
+      stuts = each_game_stuts.all
+      mpg = stuts.sum(:playingtime).fdiv(play_times).fdiv(60).round(1)
+      ppg = stuts.sum(:point).fdiv(play_times).round(1)
+      reb = stuts.sum(:DefReb) + stuts.sum(:OffReb)
+      rpg = reb.fdiv(play_times).round(1)
+      apg = stuts.sum(:Assist).fdiv(play_times).round(1)
+      fg_all = stuts.sum(:FGmake) + stuts.sum(:FGmiss)
+      if  fg_all == 0
+        fgp = 0
+      else
+        fgp = stuts.sum(:FGmake).fdiv(fg_all).round(3) * 100
+      end
+      deep_all = stuts.sum(:Deepmake) + stuts.sum(:Deepmiss)
+      if deep_all == 0
+        dgp = 0
+      else
+        dgp = stuts.sum(:FGmake).fdiv(deep_all).round(3) * 100
+      end
+      ft_all= stuts.sum(:FTmake) + stuts.sum(:FTmiss)
+      if ft_all == 0
+        ftp = 0
+      else
+        ftp =  stuts.sum(:FTmake).fdiv(ft_all).round(3) * 100
+      end
+      stuts_array = [p.position,mpg.to_s,ppg.to_s,rpg.to_s,apg.to_s,"#{fgp.to_s}%","#{dgp.to_s}%","#{ftp.to_s}%"]
+      @player_stuts_array.push(stuts_array)
+    end
   end
   
   def player_params

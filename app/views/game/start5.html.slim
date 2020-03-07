@@ -4,6 +4,8 @@
     a v-text= 'player.name'
     button  v-on:click = 'cancell(player.id,player.name)' キャンセル
   button  v-show= 'occupied' v-on:click = 'start5Confirm' スタメン確定
+  div v-show = 'toGame'
+    = link_to "試合へ" , game_path
   - @players.each do |p|
-   a type="text"  id = p.id class="d-none players"
+    a type="text"  id = p.id class="d-none players"
 = javascript_pack_tag "game/start5"

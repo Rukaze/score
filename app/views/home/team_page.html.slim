@@ -4,11 +4,47 @@
       tr
         th  名前
         th  ポジション
+        th  MPG
+        th  PPG
+        th  RPG
+        th  APG
+        th  FG%
+        th  3P%
+        th  FT%
     
     tbody
-      - @players.each do |p|
+      - @player_stuts_array.zip(@players).each do |stuts_array,p|
         tr
-          td = p.name
-          td = p.position
-
+          td = link_to p.name,root_path
+          - stuts_array.each do |s|
+            td = s
+  
+  div 
+    table.table.table-hover
+      thead
+        tr
+          th 名前
+          th ポジション
+          th MPG
+          th PPG
+          th RPG
+          th ORPG
+          th DRPG
+          th APG
+          th STP
+          th BPG
+    
+    table.table.table-hover
+      thead
+        tr
+          th FGA
+          th FGM
+          th FG%
+          th 3PA
+          th 3PM
+          th 3PA
+          th FTA
+          th FTM
+          th FT%
+          th TOPG
 = javascript_pack_tag "home"
