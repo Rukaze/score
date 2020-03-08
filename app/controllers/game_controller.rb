@@ -49,17 +49,17 @@ class GameController < ApplicationController
   end
   
   def game
-    game = Game.last
-    @period = game.period_time
+    @game = Game.last
+    @period = @game.period_time
     s = Start5.last
     start5players_id = [s.p1,s.p2,s.p3,s.p4,s.p5]
     period_time_allsecond = @period.to_i * 60
     start5players_id.each do |s|
-      start5player = Changeplayer.new(inplayer: s, clock: period_time_allsecond , game_id: game.id)
+      start5player = Changeplayer.new(inplayer: s, clock: period_time_allsecond , game_id: @game.id)
       start5player.save
     end
     @start5players = Array.new
-    @players = Player.where(team_name: game.team)
+    @players = Player.where(team_name: @game.team)
     start5players_id.each do |pid|
       player =  @players.find(pid)
       @start5players.push(player)
@@ -87,6 +87,10 @@ class GameController < ApplicationController
   def plays_array
     @play_kinds = ["FGmake","FGmiss","Deepmake","Deepmiss","FTmake","FTmiss","DefReb",
                    "OffReb","Assist","Block","steal","TO","PF"]
+  end
+  
+  def box
+    
   end
   
   

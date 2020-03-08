@@ -55,7 +55,7 @@
       
   div.text-right.mr-4
     button v-on:click="nextquater" 次のクォーターへ
-    button v-on:click="finish" = link_to "試合終了", root_path
+    button v-on:click="finish" = link_to "試合終了", box_path(:game_id => @game.id)
 a type="text" id="min"  class="d-none" = @period
 - @start5players.each do |s5p|
   a type="text" id = s5p.id  class="start5player"
