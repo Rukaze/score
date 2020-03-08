@@ -5,7 +5,6 @@ class HomeController < ApplicationController
   
   def home
     @teams = Team.all
-    
   end
   
   def reg
@@ -15,8 +14,15 @@ class HomeController < ApplicationController
   
   def create
     @player = Player.new(player_params)
-    @player.save
-    redirect_to root_path
+    if @player.save
+      flash[:success] = "#{@player.name}を登録しました"
+      redirect_to reg_path
+    else
+      @player = Player.new
+      @teams = Team.all
+      flash.now[:danger] = '名前が入ってない又はチーム内で被ってます'
+      render 'reg'
+    end
   end
   
   def team_reg
@@ -25,13 +31,19 @@ class HomeController < ApplicationController
   
   def team_create
     @team = Team.new(team_params)
-    @team.save
-    redirect_to root_path
+    if @team.save
+      flash[:success] = "#{@team.team_name}を登録しました"
+      redirect_to reg_path
+    else
+      @team = Team.new
+      flash.now[:danger] = '名前が入ってない又は既に存在してます'
+      render 'team_reg'
+    end
   end
   
   def team_page
     @team = Team.find_by(id: params[:id])
-    @players = Player.where(team_name: @team.team_name)
+    @players = Player.where(team_id: @team.id)
     @player_stuts_array = []
     @players.each do |p|
       @each_game_stuts = Stut.where(player_id: p.id)
@@ -40,6 +52,24 @@ class HomeController < ApplicationController
       simple_stuts
       stuts_array = [p.position,@mpg,@ppg,@rpg,@apg,"#{@fgp}%","#{@dpp}%","#{@ftp}%"].map(&:to_s)
       @player_stuts_array.push(stuts_array)
+    end
+    all_games = Game.where(team: @team.id)
+    @win = 0
+    @lose = 0
+    @draw = 0
+    all_games.each do |a|
+      if a.score > a.opp_score
+        @win += 1
+      elsif a.score == a.opp_score
+        @draw += 1
+      else
+        @lose += 1
+      end
+    end
+    if all_games.length <= 5
+      @games = all_games
+    else
+      @games = all_games[-5..-1]
     end
   end
   
@@ -55,7 +85,7 @@ class HomeController < ApplicationController
     render json: stuts_array
   end
   def player_params
-    params.require(:player).permit(:name,:position,:team_name)
+    params.require(:player).permit(:name,:position,:team_id)
   end
   
   def team_params
@@ -63,8 +93,10 @@ class HomeController < ApplicationController
   end
   
   def box
+    sleep(0.1)
     @game = Game.last
-    @players = Player.where(team_name: @game.team)
+    @players = Player.where(team_id: @game.team)
+    @team = Team.find(@game.team)
     @player_stuts_array = []
     @players.each do |p|
       @stuts = Stut.find_by(player_id: p.id, game_id: @game.id)
@@ -77,7 +109,7 @@ class HomeController < ApplicationController
   end
   
   def box_stuts
-    @mts = @stuts.playingtime
+    @mts = @stuts.playingtime.fdiv(60).round(1)
     @pts = @stuts.point
     @oreb = @stuts.OffReb
     @dreb = @stuts.DefReb
@@ -87,6 +119,7 @@ class HomeController < ApplicationController
     @blk = @stuts.Block
     @fgm = @stuts.FGmake
     @fga = @fgm + @stuts.FGmiss
+    
     if  @fga == 0
       @fgp = 0
     else

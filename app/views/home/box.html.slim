@@ -1,32 +1,36 @@
-h2   ボックススコア
-div.table-responsive
-    table.table.table-hover.text-nowrap
-      thead
-        tr
-          th  名前
-          th  ポジション
-          th MIN
-          th PTS
-          th REB
-          th OREB
-          th DREB
-          th AST
-          th STL
-          th BLK
-          th FGM
-          th FGA
-          th FG%
-          th 3PM
-          th 3PA
-          th 3P%
-          th FTM
-          th FTA          
-          th FT%
-          th TOV
-          th PF
-      
-      tbody
-        - @player_stuts_array.each do |stuts_array|
+div.mx-3  
+  h2   ボックススコア
+  div.table-responsive
+      table.table.table-hover.text-nowrap
+        thead
           tr
-            - stuts_array.each do |s|
-              td = s
+            th  名前
+            th  ポジション
+            th MIN
+            th PTS
+            th REB
+            th OREB
+            th DREB
+            th AST
+            th STL
+            th BLK
+            th FGM
+            th FGA
+            th FG%
+            th 3PM
+            th 3PA
+            th 3P%
+            th FTM
+            th FTA          
+            th FT%
+            th TOV
+            th PF
+        
+        tbody
+          - @player_stuts_array.each do |stuts_array|
+            tr
+              - stuts_array.each do |s|
+                td = s
+              
+  div
+    p.text-right = link_to "チームページへ" , team_page_path(:id => @team.id)

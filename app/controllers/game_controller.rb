@@ -13,8 +13,9 @@ class GameController < ApplicationController
   end
   
   def start5
-    @team = Game.last.team
-    @players = Player.where(team_name: @team)
+    @team = Game.last
+    @players = Player.where(team_id: @team.team)
+    sleep(0.5)
     
   end
   
@@ -49,6 +50,7 @@ class GameController < ApplicationController
   end
   
   def game
+    sleep(0.1)
     @game = Game.last
     @period = @game.period_time
     s = Start5.last
@@ -59,7 +61,7 @@ class GameController < ApplicationController
       start5player.save
     end
     @start5players = Array.new
-    @players = Player.where(team_name: @game.team)
+    @players = Player.where(team_id: @game.team)
     start5players_id.each do |pid|
       player =  @players.find(pid)
       @start5players.push(player)
@@ -76,7 +78,7 @@ class GameController < ApplicationController
   
   def stuts_record
     game = Game.last
-    Stut.new(player_id: params[:p_id], player_name: params[:p_name], game_id: game.id, team_name: game.team, 
+    Stut.new(player_id: params[:p_id], player_name: params[:p_name], game_id: game.id, team_id: game.team, 
              playingtime: params[:playing_time].to_i,FGmake: params[:a].to_i + params[:c].to_i,
              FGmiss: params[:b].to_i + params[:d].to_i, Deepmake: params[:c].to_i, Deepmiss: params[:d].to_i, FTmake: params[:e].to_i,
              FTmiss: params[:f].to_i, DefReb: params[:g].to_i, OffReb: params[:h].to_i, Assist: params[:i].to_i,

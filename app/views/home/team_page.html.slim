@@ -1,6 +1,10 @@
 #team_page
+  div
+    h3 チーム成績
+    h5 = "#{@win}勝#{@lose}負#{@draw}引"
+    
   div.table-responsive-sm
-    table.table.table-hover
+    table.table.table-hover.text-nowrap
       thead
         tr
           th  名前
@@ -38,7 +42,7 @@
           th FG%
           th 3PA
           th 3PM
-          th 3PA
+          th 3P%
           th FTA
           th FTM
           th FT%

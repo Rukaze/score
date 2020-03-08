@@ -5,6 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Employee.create(name: '竹野内豊', age: 42, email: 'y.takenouchi@example.com')
-Employee.create(name: '反町隆史', age: 43, email: 't.sorimachi@example.com')
-Employee.create(name: '豊川悦司', age: 55, email: 'e.toyokawa@example.com')
+Team.create(team_name: "76")
+Player.create(name: "ben", team_id: '1',position: 'G')
+Player.create(name: "rich", team_id: '1',position: 'G')
+Player.create(name: "haris", team_id: '1',position: 'G')
+Player.create(name: "hoho", team_id: '1',position: 'G')
+Player.create(name: "jojo", team_id: '1',position: 'G')
+Player.create(name: "kork", team_id: '1',position: 'G')

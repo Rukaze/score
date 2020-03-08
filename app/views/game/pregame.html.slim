@@ -3,7 +3,7 @@
     ul.m-2
       li.m-2
         = f.label :チーム名, class: 'mr-2'
-        = f.collection_select(:team, @teams, :team_name, :team_name)
+        = f.collection_select(:team, @teams, :id, :team_name)
         br
         = f.label :相手チーム名, class: 'mr-2'
         = f.text_field :opp_name
