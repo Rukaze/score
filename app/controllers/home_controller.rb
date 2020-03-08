@@ -35,19 +35,23 @@ class HomeController < ApplicationController
     @player_stuts_array = []
     @players.each do |p|
       @each_game_stuts = Stut.where(player_id: p.id)
+      @play_times = @each_game_stuts.where('playingtime > 0').count
+      @stuts = @each_game_stuts.all
       simple_stuts
-      stuts_array = [p.position,@mpg.to_s,@ppg.to_s,@rpg.to_s,@apg.to_s,"#{@fgp.to_s}%","#{@dgp.to_s}%","#{@ftp.to_s}%"]
+      stuts_array = [p.position,@mpg,@ppg,@rpg,@apg,"#{@fgp}%","#{@dpp}%","#{@ftp}%"].map(&:to_s)
       @player_stuts_array.push(stuts_array)
     end
   end
   
   def get_details
     @each_game_stuts = Stut.where(player_id: params[:id])
+    @play_times = @each_game_stuts.where('playingtime > 0').count
+    @stuts = @each_game_stuts.all
     simple_stuts
     detail_stuts
-    stuts_array = [@stuts.last.player_name,@mpg.to_s,@ppg.to_s,@rpg.to_s,@orpg.to_s,@drpg.to_s,@apg.to_s,@spg.to_s,@bpg.to_s,
-                   @fga.to_s,@fgm.to_s,"#{@fgp.to_s}%",@dpa.to_s,@dpm.to_s,"#{@dgp.to_s}%",@fta.to_s,@ftm.to_s,"#{@ftp.to_s}%",
-                   @topg.to_s]
+    stuts_array = [@stuts.last.player_name,@mpg,@ppg,@rpg,@orpg,@drpg,@apg,@spg,@bpg,
+                   @fga,@fgm,"#{@fgp}%",@dpa,@dpm,"#{@dpp}%",@fta,@ftm,"#{@ftp}%",
+                   @topg].map(&:to_s)
     render json: stuts_array
   end
   def player_params
@@ -58,9 +62,56 @@ class HomeController < ApplicationController
     params.require(:team).permit(:team_name)
   end
   
+  def box
+    @game = Game.last
+    @players = Player.where(team_name: @game.team)
+    @player_stuts_array = []
+    @players.each do |p|
+      @stuts = Stut.find_by(player_id: p.id, game_id: @game.id)
+      box_stuts
+      stuts_array = [p.name,p.position,@mts,@pts,@reb,@oreb,@dreb,@ast,@stl,
+                     @blk,@fgm,@fga,"#{@fgp}%",@dpm,@dpm,"#{@dpp}%",@ftm,@fta,"#{@ftp}%",
+                     @tov,@pf].map(&:to_s)
+      @player_stuts_array.push(stuts_array)
+    end
+  end
+  
+  def box_stuts
+    @mts = @stuts.playingtime
+    @pts = @stuts.point
+    @oreb = @stuts.OffReb
+    @dreb = @stuts.DefReb
+    @reb = @oreb + @dreb
+    @ast = @stuts.Assist
+    @stl = @stuts.steal
+    @blk = @stuts.Block
+    @fgm = @stuts.FGmake
+    @fga = @fgm + @stuts.FGmiss
+    if  @fga == 0
+      @fgp = 0
+    else
+      @fgp = @fgm.fdiv(@fga).round(3) * 100
+    end
+    @dpm = @stuts.Deepmake
+    @dpa = @dpm + @stuts.Deepmiss
+    if @dpa == 0
+      @dpp = 0
+    else
+      @dpp = @dpm.fdiv(@dpa).round(3) * 100
+    end
+    @ftm = @stuts.FTmake
+    @fta = @ftm + @stuts.FGmiss
+    if @fta == 0
+      @ftp = 0
+    else
+      @ftp =  @ftm.fdiv(@fta).round(3) * 100
+    end
+    @tov = @stuts.TO
+    @pf = @stuts.PF
+  end
+  
+  
   def simple_stuts
-    @play_times = @each_game_stuts.where('playingtime > 0').count
-    @stuts = @each_game_stuts.all
     @mpg = @stuts.sum(:playingtime).fdiv(@play_times).fdiv(60).round(1)
     @ppg = @stuts.sum(:point).fdiv(@play_times).round(1)
     @reb = @stuts.sum(:DefReb) + @stuts.sum(:OffReb)
@@ -74,9 +125,9 @@ class HomeController < ApplicationController
     end
     @deep_all = @stuts.sum(:Deepmake) + @stuts.sum(:Deepmiss)
     if @deep_all == 0
-      @dgp = 0
+      @dpp = 0
     else
-      @dgp = @stuts.sum(:FGmake).fdiv(@deep_all).round(3) * 100
+      @dpp = @stuts.sum(:FGmake).fdiv(@deep_all).round(3) * 100
     end
     @ft_all= @stuts.sum(:FTmake) + @stuts.sum(:FTmiss)
     if @ft_all == 0

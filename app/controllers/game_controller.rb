@@ -89,9 +89,7 @@ class GameController < ApplicationController
                    "OffReb","Assist","Block","steal","TO","PF"]
   end
   
-  def box
-    
-  end
+  
   
   
   def game_params

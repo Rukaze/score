@@ -20,5 +20,5 @@ Rails.application.routes.draw do
    post 'game/finish/:score/:opp_score', to:'game#finish'
    post 'game/stuts_record/:p_id/:p_name/:playing_time/:a/:b/:c/:d/:e/:f/:g/:h/:i/:j/:k/:l/:m', to:'game#stuts_record'
    get 'home/get_details/:id', to:'home#get_details'
-   get 'game/box', to:'game#box'
+   get 'home/box', to:'home#box'
 end
