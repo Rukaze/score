@@ -67,31 +67,6 @@ class GameController < ApplicationController
     @reserves = @players.where.not(id: @start5players_id)
   end
   
-=begin
-  def changeplayer_command
-    inplayer_id = params[:inPlayer_id]
-    outplayer_id = params[:outPlayer_id]
-    clock_allsecond = params[:clock].to_i
-    changeplayer = Changeplayer.new(inplayer: inplayer_id, outplayer: outplayer_id, 
-                                    clock: clock_allsecond, game_id: Game.last.id)
-    changeplayer.save
-  end
-  
-  def play_record
-    plays_array
-    play = @play_kinds[params[:play_id].to_i]
-    player = Player.find(params[:player_id])
-    Scoring.new(kind: play, player_id: player.id, game_id: Game.last.id).save
-  end
-  
-  def nextquater
-    game = Game.last
-    oncourts_id = [params[:p1_id],params[:p2_id],params[:p3_id],params[:p4_id],params[:p5_id]]
-    oncourts_id.each do |o_id|
-      Changeplayer.new(inplayer: o_id, clock: game.period_time.to_i * 60, game_id: game.id).save
-    end
-  end
-=end
   def finish
     game = Game.last
     game.score = params[:score].to_i
@@ -116,7 +91,7 @@ class GameController < ApplicationController
   
   
   def game_params
-    params.require(:game).permit(:team, :period_time)
+    params.require(:game).permit(:team, :period_time,:opp_name)
   end
   
   def start5_params

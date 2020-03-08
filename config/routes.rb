@@ -19,4 +19,5 @@ Rails.application.routes.draw do
    #post 'game/nextquater/:p1_id/:p2_id/:p3_id/:p4_id/:p5_id', to:'game#nextquater'
    post 'game/finish/:score/:opp_score', to:'game#finish'
    post 'game/stuts_record/:p_id/:p_name/:playing_time/:a/:b/:c/:d/:e/:f/:g/:h/:i/:j/:k/:l/:m', to:'game#stuts_record'
+   get 'home/get_details/:id', to:'home#get_details'
 end

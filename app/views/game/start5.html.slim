@@ -1,11 +1,21 @@
-#start5
-  button v-for = 'player in not_chosen_players' v-on:click = 'set_start5(player.id,player.name)' v-text= 'player.name'
-  p [v-for = 'player in start5Array'] 
-    a v-text= 'player.name'
-    button  v-on:click = 'cancell(player.id,player.name)' キャンセル
-  button  v-show= 'occupied' v-on:click = 'start5Confirm' スタメン確定
-  div v-show = 'toGame'
-    = link_to "試合へ" , game_path
+div.mx-4  
+  #start5
+    p スタメンを選んでください
+    a.mb-2 [v-for = 'player in not_chosen_players' v-on:click = 'set_start5(player.id,player.name,player.position)']
+      button.m-1
+        |  {{player.name}}
+         
+    
+    h5.mb-1 スタメン
+    
+    p [v-for = 'player in start5Array']
+      a.mb-2
+        |  {{player.name}} : {{player.position}}
+        button.ml-1  v-on:click = 'cancell(player.id,player.name,player.position)' キャンセル
+        br
+    button.ml-3  v-show= 'occupied' v-on:click = 'start5Confirm' = link_to "試合へ" , game_path 
+    
+    
   - @players.each do |p|
     a type="text"  id = p.id class="d-none players"
 = javascript_pack_tag "game/start5"

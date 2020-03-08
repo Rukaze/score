@@ -4,6 +4,9 @@
       li.m-2
         = f.label :チーム名, class: 'mr-2'
         = f.collection_select(:team, @teams, :team_name, :team_name)
+        br
+        = f.label :相手チーム名, class: 'mr-2'
+        = f.text_field :opp_name
       li.m-2
         = f.label :'1ピリオドの時間(分)', class: 'mr-2'
         = f.text_field(:period_time, readonly: true,"v-model.number": "period_time")
