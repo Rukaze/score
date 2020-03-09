@@ -105,6 +105,7 @@ new Vue({
       this.oncourt.push(this.inPlayer);
       this.outPlayerbool = false;
       this.playerChangebool = false;
+      this.Cancellbool = false;
       this.gametime_allsecond = this.min * 60 + this.sec;
       this.change_record.push({inplayer_id:this.inPlayer.id,outplayer_id:this.outPlayer.id,clock: this.gametime_allsecond});
     },
