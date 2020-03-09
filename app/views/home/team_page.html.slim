@@ -1,8 +1,14 @@
-#team_page
+div#team_page.mx-4
+  h2 = @team_name
   div
     h3 チーム成績
     h5 = "#{@win}勝#{@lose}負#{@draw}引"
-    
+    h5 直近5試合
+    - @games.each do |g|
+      a = "#{g.score} - #{g.opp_score}  対 #{g.opp_name}"
+      br
+  div
+    h4 個人成績（名前クリックで詳細スタッツ）
   div.table-responsive-sm
     table.table.table-hover.text-nowrap
       thead

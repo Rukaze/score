@@ -43,14 +43,19 @@ class HomeController < ApplicationController
   
   def team_page
     @team = Team.find_by(id: params[:id])
+    @team_name = @team.team_name
     @players = Player.where(team_id: @team.id)
     @player_stuts_array = []
     @players.each do |p|
       @each_game_stuts = Stut.where(player_id: p.id)
       @play_times = @each_game_stuts.where('playingtime > 0').count
-      @stuts = @each_game_stuts.all
-      simple_stuts
-      stuts_array = [p.position,@mpg,@ppg,@rpg,@apg,"#{@fgp}%","#{@dpp}%","#{@ftp}%"].map(&:to_s)
+      if @play_times == 0
+        stuts_array = [p.position,0.0,0.0,0.0,0.0,"0%","0%","0%"].map(&:to_s)
+      else
+        @stuts = @each_game_stuts.all
+        simple_stuts
+        stuts_array = [p.position,@mpg,@ppg,@rpg,@apg,"#{@fgp}%","#{@dpp}%","#{@ftp}%"].map(&:to_s)
+      end
       @player_stuts_array.push(stuts_array)
     end
     all_games = Game.where(team: @team.id)
@@ -77,11 +82,18 @@ class HomeController < ApplicationController
     @each_game_stuts = Stut.where(player_id: params[:id])
     @play_times = @each_game_stuts.where('playingtime > 0').count
     @stuts = @each_game_stuts.all
-    simple_stuts
-    detail_stuts
-    stuts_array = [@stuts.last.player_name,@mpg,@ppg,@rpg,@orpg,@drpg,@apg,@spg,@bpg,
-                   @fga,@fgm,"#{@fgp}%",@dpa,@dpm,"#{@dpp}%",@fta,@ftm,"#{@ftp}%",
-                   @topg].map(&:to_s)
+    player_name = Player.find(params[:id]).name
+    if @play_times == 0
+      stuts_array = [player_name,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+                     0.0,0.0,"0%",0.0,0.0,"0%",0.0,0.0,"0%",
+                     0.0].map(&:to_s)
+    else
+      simple_stuts
+      detail_stuts
+      stuts_array = [player_name,@mpg,@ppg,@rpg,@orpg,@drpg,@apg,@spg,@bpg,
+                     @fga,@fgm,"#{@fgp}%",@dpa,@dpm,"#{@dpp}%",@fta,@ftm,"#{@ftp}%",
+                     @topg].map(&:to_s)
+    end
     render json: stuts_array
   end
   def player_params
