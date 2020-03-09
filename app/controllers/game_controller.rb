@@ -1,6 +1,7 @@
 class GameController < ApplicationController
   protect_from_forgery 
   skip_before_action :verify_authenticity_token
+  before_action :team_presence, only: [:pregame]
   def pregame
     @teams = Team.all
     @game_setting = Game.new
@@ -93,14 +94,21 @@ class GameController < ApplicationController
   
   
   
-  
-  def game_params
-    params.require(:game).permit(:team, :period_time,:opp_name)
-  end
-  
-  def start5_params
-    params.require(:start5).permit(:team,:p1,:p2,:p3,:p4,:p5)
-  end
+  private
+    def game_params
+      params.require(:game).permit(:team, :period_time,:opp_name)
+    end
+    
+    def start5_params
+      params.require(:start5).permit(:team,:p1,:p2,:p3,:p4,:p5)
+    end
+    
+    def team_presence
+      if Team.last.nil?
+        flash[:warning] = "チームを登録してください"
+        redirect_to team_reg_path
+      end
+    end
   
   
 end

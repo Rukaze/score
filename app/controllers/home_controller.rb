@@ -1,4 +1,7 @@
 class HomeController < ApplicationController
+  before_action :find_team, only: [:team_edit, :team_update, :team_page, :team_delete, :player_select]
+  before_action :find_player, only: [:player_edit, :player_update, :player_delete]
+  before_action :team_presence, only: [:reg]
   def index
     @players = Player.all
   end
@@ -25,6 +28,30 @@ class HomeController < ApplicationController
     end
   end
   
+  def player_select
+    @players = Player.where(team_id: @team.id)
+  end
+  
+  def player_edit
+  end
+  
+  def player_update
+    @player.update!(player_params)
+    flash[:success] = '名前とポジションを変更しました'
+    redirect_to team_page_path(id: @player.team_id)
+  rescue
+    flash[:danger] = '名前が入ってない又は既に存在してます'
+    redirect_to home_player_edit_path(id: @player.id)
+  end
+  
+  def player_delete
+    team_id = @player.team_id
+    @player.destroy
+    flash[:success] = 'プレイヤーを削除しました'
+    redirect_to team_page_path(id: team_id)
+  end
+  
+  
   def team_reg
     @team = Team.new
   end
@@ -41,8 +68,26 @@ class HomeController < ApplicationController
     end
   end
   
+  def team_edit
+  end
+  
+  def team_update
+    @team.update!(team_params)
+    flash[:success] = 'チーム名を変更しました'
+    redirect_to team_page_path(id: @team.id)
+  rescue
+    flash[:danger] = '名前が入ってない又は既に存在してます'
+    redirect_to home_team_edit_path(id: @team.id)
+  end
+  
+  def team_delete
+    @team.destroy
+    flash[:success] = 'チームを削除しました'
+    redirect_to root_path
+  end
+  
+  
   def team_page
-    @team = Team.find_by(id: params[:id])
     @team_name = @team.team_name
     @players = Player.where(team_id: @team.id)
     @player_stuts_array = []
@@ -93,13 +138,7 @@ class HomeController < ApplicationController
 
     render json: stuts_array
   end
-  def player_params
-    params.require(:player).permit(:name,:position,:team_id)
-  end
   
-  def team_params
-    params.require(:team).permit(:team_name)
-  end
   
   def box
     sleep(0.1)
@@ -192,4 +231,29 @@ class HomeController < ApplicationController
     @ftm = @stuts.sum(:FTmake).fdiv(@play_times).round(1)
     @topg = @stuts.sum(:TO).fdiv(@play_times).round(1)
   end
+  
+  private
+  
+    def player_params
+      params.require(:player).permit(:name,:position,:team_id)
+    end
+    
+    def team_params
+      params.require(:team).permit(:team_name)
+    end
+    
+    def find_team
+      @team = Team.find(params[:id])
+    end
+    
+    def find_player
+      @player = Player.find(params[:id])
+    end
+    
+    def team_presence
+      if Team.last.nil?
+        flash[:warning] = "チームを登録してください"
+        redirect_to team_reg_path
+      end
+    end
 end

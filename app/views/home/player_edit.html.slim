@@ -1,0 +1,16 @@
+div.container-fluid.m-4
+  .row
+    .col-sm-6.col-lg-3
+      p 元の選手名,ポジション
+      p  = "#{@player.name} : #{@player.position}"
+      
+    .col-sm-6.col-lg-3
+      p  新しい選手名,ポジション
+      = form_with(model: @player, url:home_player_update_path(id:@player.id), local:true) do |f|
+        = f.text_field :name
+        = f.select :position, {'ガード': 'G', 'フォワード': 'F', 'センター': 'C', 'G/F': 'G/F', 'F/C': 'F/C'} 
+        = f.submit '変更', class: 'btn btn-primary mt-2' 
+    
+    .col-sm-6.col-lg-3
+      = form_with(model: @player, url:home_player_delete_path(id:@player.id), local:true) do |f|
+        = f.submit '選手削除', class: 'btn btn-danger mt-2' 
