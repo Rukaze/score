@@ -141,7 +141,6 @@ class HomeController < ApplicationController
   
   
   def box
-    sleep(0.1)
     @game = Game.last
     @players = Player.where(team_id: @game.team)
     @team = Team.find(@game.team)
@@ -157,6 +156,9 @@ class HomeController < ApplicationController
   end
   
   def box_stuts
+    while @stuts.playingtime.nil? do
+      sleep(0.1)
+    end
     @mts = @stuts.playingtime.fdiv(60).round(1)
     @pts = @stuts.point
     @oreb = @stuts.OffReb
