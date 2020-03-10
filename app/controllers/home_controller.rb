@@ -92,8 +92,8 @@ class HomeController < ApplicationController
     @players = Player.where(team_id: @team.id)
     @player_stuts_array = []
     @players.each do |p|
-      @each_game_stuts = Stut.where(player_id: p.id)
-      @play_times = @each_game_stuts.where('playingtime > 0').count
+      @each_game_stuts = Stut.where(player_id: p.id).where('playingtime > 0')
+      @play_times = @each_game_stuts.count
       if @play_times == 0
         @play_times = 1
       end
@@ -102,18 +102,19 @@ class HomeController < ApplicationController
       stuts_array = [p.position,@mpg,@ppg,@rpg,@apg,"#{@fgp}%","#{@dpp}%","#{@ftp}%"].map(&:to_s)
       @player_stuts_array.push(stuts_array)
     end
-    all_games = Game.where(team: @team.id)
+    all_games = Game.where(team: @team.id).where.not(score: nil)
     @win = 0
     @lose = 0
     @draw = 0
-    all_games.each do |a|
-      if a.score > a.opp_score
+    all_games.each do |g|
+      if g.score > g.opp_score
         @win += 1
-      elsif a.score == a.opp_score
+      elsif g.score == g.opp_score
         @draw += 1
       else
         @lose += 1
       end
+
     end
     if all_games.length <= 5
       @games = all_games
@@ -123,8 +124,8 @@ class HomeController < ApplicationController
   end
   
   def get_details
-    @each_game_stuts = Stut.where(player_id: params[:id])
-    @play_times = @each_game_stuts.where('playingtime > 0').count
+    @each_game_stuts = Stut.where(player_id: params[:id]).where('playingtime > 0')
+    @play_times = @each_game_stuts.count
     @stuts = @each_game_stuts.all
     player_name = Player.find(params[:id]).name
     if @play_times == 0
@@ -149,14 +150,14 @@ class HomeController < ApplicationController
       @stuts = Stut.find_by(player_id: p.id, game_id: @game.id)
       box_stuts
       stuts_array = [p.name,p.position,@mts,@pts,@reb,@oreb,@dreb,@ast,@stl,
-                     @blk,@fgm,@fga,"#{@fgp}%",@dpm,@dpm,"#{@dpp}%",@ftm,@fta,"#{@ftp}%",
+                     @blk,@fgm,@fga,"#{@fgp}%",@dpm,@dpa,"#{@dpp}%",@ftm,@fta,"#{@ftp}%",
                      @tov,@pf].map(&:to_s)
       @player_stuts_array.push(stuts_array)
     end
   end
   
   def box_stuts
-    while @stuts.playingtime.nil? do
+    while @stuts.nil? do
       sleep(0.1)
     end
     @mts = @stuts.playingtime.fdiv(60).round(1)
@@ -169,7 +170,6 @@ class HomeController < ApplicationController
     @blk = @stuts.Block
     @fgm = @stuts.FGmake
     @fga = @fgm + @stuts.FGmiss
-    
     if  @fga == 0
       @fgp = 0
     else
@@ -183,7 +183,7 @@ class HomeController < ApplicationController
       @dpp = @dpm.fdiv(@dpa).round(3) * 100
     end
     @ftm = @stuts.FTmake
-    @fta = @ftm + @stuts.FGmiss
+    @fta = @ftm + @stuts.FTmiss
     if @fta == 0
       @ftp = 0
     else
@@ -204,19 +204,19 @@ class HomeController < ApplicationController
     if  @fg_all == 0
       @fgp = 0
     else
-      @fgp = @stuts.sum(:FGmake).fdiv(@fg_all).round(3) * 100
+      @fgp = (100 * @stuts.sum(:FGmake)).fdiv(@fg_all).round(1) 
     end
     @deep_all = @stuts.sum(:Deepmake) + @stuts.sum(:Deepmiss)
     if @deep_all == 0
       @dpp = 0
     else
-      @dpp = @stuts.sum(:FGmake).fdiv(@deep_all).round(3) * 100
+      @dpp = (100 * @stuts.sum(:Deepmake)).fdiv(@deep_all).round(1) 
     end
     @ft_all= @stuts.sum(:FTmake) + @stuts.sum(:FTmiss)
     if @ft_all == 0
       @ftp = 0
     else
-      @ftp =  @stuts.sum(:FTmake).fdiv(@ft_all).round(3) * 100
+      @ftp =  (100 * @stuts.sum(:FTmake)).fdiv(@ft_all).round(1) 
     end
   end
   
@@ -258,4 +258,6 @@ class HomeController < ApplicationController
         redirect_to team_reg_path
       end
     end
+    
+  
 end
