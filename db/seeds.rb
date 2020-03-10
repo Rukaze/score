@@ -6,12 +6,13 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 Team.create(team_name: "SampleTeam")
-Player.create(name: "ben", team_id: '1',position: 'G/F')
-Player.create(name: "rich", team_id: '1',position: 'G')
-Player.create(name: "haris", team_id: '1',position: 'F')
-Player.create(name: "hoho", team_id: '1',position: 'F/C')
-Player.create(name: "jojo", team_id: '1',position: 'C')
-Player.create(name: "kork", team_id: '1',position: 'G/F')
+team_id = Team.find_by(team_name:"SampleTeam").id
+Player.create(name: "ben", team_id: team_id,position: 'G/F')
+Player.create(name: "rich", team_id: team_id,position: 'G')
+Player.create(name: "haris", team_id: team_id,position: 'F')
+Player.create(name: "hoho", team_id: team_id,position: 'F/C')
+Player.create(name: "jojo", team_id: team_id,position: 'C')
+Player.create(name: "kork", team_id: team_id,position: 'G/F')
 5.times do |n|
   Game.create(team:"1",score: rand(60..80),period_time: 10,opp_name: "enemy#{n+1}",opp_score: rand(60..80))
 end
