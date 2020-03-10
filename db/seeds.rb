@@ -14,12 +14,12 @@ Player.create(name: "hoho", team_id: team_id,position: 'F/C')
 Player.create(name: "jojo", team_id: team_id,position: 'C')
 Player.create(name: "kork", team_id: team_id,position: 'G/F')
 5.times do |n|
-  Game.create(team:"1",score: rand(60..80),period_time: 10,opp_name: "enemy#{n+1}",opp_score: rand(60..80))
+  Game.create(team: team_id,score: rand(60..80),period_time: 10,opp_name: "enemy#{n+1}",opp_score: rand(60..80))
 end
 5.times do |n|
   Stut.create( player_id: "1", game_id: "#{n+1}", FGmake: rand(11), FGmiss: rand(11), Deepmake: rand(7), Deepmiss: rand(7),
   FTmake: rand(11), FTmiss: rand(4), DefReb: rand(11), OffReb: rand(11), Assist: rand(11), Block: rand(5), steal: rand(5),
-  TO: rand(5), PF: rand(5), playingtime: 2300, player_name: "ben", team_id: "team_id", point: rand(15..25))
+  TO: rand(5), PF: rand(5), playingtime: 2300, player_name: "ben", team_id: team_id, point: rand(15..25))
 end
 5.times do |n|
   Stut.create( player_id: "2", game_id: "#{n+1}", FGmake: rand(11), FGmiss: rand(11), Deepmake: rand(7), Deepmiss: rand(9),
