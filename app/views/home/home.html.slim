@@ -1,12 +1,26 @@
-#hello
+#hello.mx-4
   .container-fluid
-    .col-xs-12.col-md-6
-      h3.text-center 登録チーム
-      .m-3
-        - @teams.each do |t|
-          .container.p-4.border.mb-1
-            = link_to( team_page_path(id: t.id)) do
-              = t.team_name
-            br
+    .row
+      .col-sm-12.col-md-6
+        h3.text-center 登録チーム
+        .m-3
+          - @teams.each do |t|
+            .container.p-4.border.mb-1
+              = link_to( team_page_path(id: t.id)) do
+                = t.team_name
+              br
+    
+    .row.mt-4
+      .col
+        h2 作品紹介
+        p 言語： Ruby, HTML/CSS, Javascript
+        p フレームワーク ： RubyonRails, Vue.js , BootstrapVue
+        p テンプレートエンジン ： Slim
+        p DB ： MySQL
+        p サーバー ： Heroku
+        p 概要 ： バスケットボールの本格的なスコアを記録できるアプリケーションです．チームと選手を登録した後に試合を始め、
+                  タイマーを設定して，プレイや選手交代を記録することで各選手のスタッツを算出します．
+    
+    
   
 = javascript_pack_tag "home"
