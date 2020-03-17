@@ -225,7 +225,11 @@ new Vue({
         }
       });
       return timeStrings[0] + ":" + timeStrings[1];
-    }
+    },
+    
   },
   
 });
+window.onbeforeunload = function(e) {
+    return '';
+};
