@@ -3,7 +3,7 @@ class GameController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :team_presence, only: [:pregame]
   def pregame
-    @teams = Team.all
+    teams
     @game_setting = Game.new
   end
   

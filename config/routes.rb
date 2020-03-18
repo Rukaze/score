@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get 'sessions/new'
+  get 'sessions/create'
+  get 'sessions/destroy'
+  get 'users/new'
+  get 'users/create'
    root to: 'home#home'
    get 'index', to:'home#index'
    get 'reg', to:'home#reg'
@@ -25,4 +30,8 @@ Rails.application.routes.draw do
    get 'home/player_edit', to:'home#player_edit'
    patch 'home/player_update' , to:'home#player_update'
    patch 'home/player_delete', to:'home#player_delete'
+   resources :users, only: [:new, :create]
+   get "/login" => "sessions#new"
+   post '/login' => 'sessions#create'
+   post '/logout' => 'sessions#destroy'
 end

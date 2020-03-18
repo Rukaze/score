@@ -1,18 +1,23 @@
 class HomeController < ApplicationController
   before_action :find_team, only: [:team_edit, :team_update, :team_page, :team_delete, :player_select]
   before_action :find_player, only: [:player_edit, :player_update, :player_delete]
+  before_action :teamowner, only: [:team_edit, :team_update,:team_delete, :player_select,
+                                   :player_edit, :player_update, :player_delete]
   before_action :team_presence, only: [:reg]
+  before_action :require_login, only: [:reg,:team_reg,:player_select,:player_edit,:team_edit]
   def index
     @players = Player.all
   end
   
   def home
-    @teams = Team.all
+    if current_user
+      teams
+    end
   end
   
   def reg
     @player = Player.new
-    @teams = Team.all
+    teams
   end
   
   def create
@@ -22,7 +27,7 @@ class HomeController < ApplicationController
       redirect_to reg_path
     else
       @player = Player.new
-      @teams = Team.all
+      teams
       flash.now[:danger] = '名前が入ってない又はチーム内で被ってます'
       render 'reg'
     end
@@ -58,6 +63,7 @@ class HomeController < ApplicationController
   
   def team_create
     @team = Team.new(team_params)
+    @team.user_id = current_user.id
     if @team.save
       flash[:success] = "#{@team.team_name}を登録しました"
       redirect_to reg_path
@@ -245,11 +251,21 @@ class HomeController < ApplicationController
     end
     
     def find_team
-      @team = Team.find(params[:id])
+      if params[:id]
+        @team = Team.find(params[:id])
+      else
+        @team = Team.find_by(team_name: params[:team_name])
+      end
+      
+      if @team.nil?
+        flash[:warning] = "そのチーム名は存在していません"
+        redirect_to root_path
+      end
     end
     
     def find_player
       @player = Player.find(params[:id])
+      @team = Team.find(@player.team_id)
     end
     
     def team_presence

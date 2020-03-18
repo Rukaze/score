@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_08_155928) do
+ActiveRecord::Schema.define(version: 2020_03_17_101916) do
 
   create_table "changeplayers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "inplayer"
@@ -97,6 +97,19 @@ ActiveRecord::Schema.define(version: 2020_03_08_155928) do
     t.string "team_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "user_id"
+  end
+
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "username", limit: 191, null: false
+    t.string "email", limit: 191, null: false
+    t.string "password_digest", limit: 191
+    t.integer "level"
+    t.string "salt", limit: 191
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
 end

@@ -5,7 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Team.create(team_name: "SampleTeam")
+User.create(email: "sample@gg.com",username: "sample", password: "sample",password_confirmation: "sample")
+user_id = User.find_by(username: "sample").id
+Team.create(team_name: "SampleTeam",user_id: user_id)
 team_id = Team.find_by(team_name:"SampleTeam").id
 Player.create(name: "ben", team_id: team_id,position: 'G/F')
 Player.create(name: "rich", team_id: team_id,position: 'G')

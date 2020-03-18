@@ -1,7 +1,9 @@
 div#team_page.mx-4
   h2 = @team_name
-  a = link_to "チーム編集",home_team_edit_path(id: @team.id) 
-  a.ml-3 = link_to "選手編集",home_player_select_path(id: @team.id) 
+  - if current_user
+    - if current_user.id.to_s == @team.id
+      a = link_to "チーム編集",home_team_edit_path(id: @team.id) 
+      a.ml-3 = link_to "選手編集",home_player_select_path(id: @team.id) 
   div
     h3 チーム成績
     h5 = "#{@win}勝#{@lose}負#{@draw}引"
