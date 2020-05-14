@@ -47,8 +47,18 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+#production:
+ # <<: *default
+  #database: <%= ENV['DB_NAME'] %> 
+  #username: <%= ENV['DB_USERNAME'] %>
+  #password: <%= ENV['DB_PASSWORD'] %>
+
 production:
   <<: *default
-  database: <%= ENV['DB_NAME'] %> 
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
+  adapter: mysql2
+  encoding: utf8
+  database: SocreMySQL
+  username: issei
+  password: issei0117
+  host: database-1.cth3x90wuaz9.ap-northeast-1.rds.amazonaws.com
+  port: 3306

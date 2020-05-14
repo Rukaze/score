@@ -7,9 +7,8 @@ html
     = csrf_meta_tags
     = csp_meta_tag
     = include_gon if defined? gon && gon.present?
-    = stylesheet_pack_tag 'application', media: 'all'
     = javascript_pack_tag 'application'
-    
+    = stylesheet_pack_tag 'application', media: 'all' , 'data-turbolinks-track':  'reload' 
   body
     == render 'layouts/header'
     div

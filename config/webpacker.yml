@@ -34,7 +34,6 @@ default: &default
     - .woff2
 
   extensions:
-    - .vue
     - .mjs
     - .js
     - .sass
@@ -88,7 +87,7 @@ production:
   <<: *default
 
   # Production depends on precompilation of packs prior to booting for performance.
-  compile: false
+  compile: true
 
   # Extract and emit a css file
   extract_css: true

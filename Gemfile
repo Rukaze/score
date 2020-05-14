@@ -57,3 +57,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "slim-rails"
 gem "html2slim"
 gem 'sorcery'
+
+group :production do
+    gem 'unicorn', '5.4.1'
+end
