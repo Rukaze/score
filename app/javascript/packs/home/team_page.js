@@ -1,8 +1,8 @@
 import Vue from 'vue/dist/vue.esm';
-import BootstrapVue from 'bootstrap-vue';
+
 import axios from 'axios';
 
-Vue.use(BootstrapVue);
+
 
 new Vue({
   el: '#team_page',

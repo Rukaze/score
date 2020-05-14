@@ -6,7 +6,7 @@
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")
-import 'bootstrap'
+import 'bosotstrap'
 import "../src/application.scss"
 
 
