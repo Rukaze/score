@@ -1,6 +1,6 @@
 #team_reg.mx-4
   h2 チーム登録
-  = form_with(model: @team, url:team_create_path, local:true) do |f|
+  = form_with(model: @team,local:true) do |f|
       p
         = f.label :チーム名, class: 'mr-2'
         = f.text_field :team_name

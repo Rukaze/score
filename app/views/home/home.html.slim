@@ -7,14 +7,14 @@
           .m-3
             - @teams.each do |t|
               .container.p-4.border.mb-1
-                = link_to( team_page_path(id: t.id)) do
+                = link_to(team_path(id: t.id)) do
                   = t.team_name
                 br
         
       .col-lg-6.col-sm-12
         h3.text-center チーム検索
         .m-3
-          = form_with(url:team_page_path, method: :get, local:true) do |f|
+          = form_with(model: @team, method: :get, local:true) do |f| 
             p
               a = f.label :チーム名, class: 'mr-2'
               a.ml-3 = f.text_field :team_name
