@@ -122,6 +122,7 @@ class HomeController < ApplicationController
       end
 
     end
+    
     if all_games.length <= 5
       @games = all_games
     else
@@ -142,7 +143,6 @@ class HomeController < ApplicationController
     stuts_array = [player_name,@mpg,@ppg,@rpg,@orpg,@drpg,@apg,@spg,@bpg,
                    @fga,@fgm,"#{@fgp}%",@dpa,@dpm,"#{@dpp}%",@fta,@ftm,"#{@ftp}%",
                    @topg].map(&:to_s)
-
     render json: stuts_array
   end
   
@@ -162,83 +162,7 @@ class HomeController < ApplicationController
     end
   end
   
-  def box_stuts
-    while @stuts.nil? do
-      sleep(0.1)
-    end
-    @mts = @stuts.playingtime.fdiv(60).round(1)
-    @pts = @stuts.point
-    @oreb = @stuts.OffReb
-    @dreb = @stuts.DefReb
-    @reb = @oreb + @dreb
-    @ast = @stuts.Assist
-    @stl = @stuts.steal
-    @blk = @stuts.Block
-    @fgm = @stuts.FGmake
-    @fga = @fgm + @stuts.FGmiss
-    if  @fga == 0
-      @fgp = 0
-    else
-      @fgp = @fgm.fdiv(@fga).round(3) * 100
-    end
-    @dpm = @stuts.Deepmake
-    @dpa = @dpm + @stuts.Deepmiss
-    if @dpa == 0
-      @dpp = 0
-    else
-      @dpp = @dpm.fdiv(@dpa).round(3) * 100
-    end
-    @ftm = @stuts.FTmake
-    @fta = @ftm + @stuts.FTmiss
-    if @fta == 0
-      @ftp = 0
-    else
-      @ftp =  @ftm.fdiv(@fta).round(3) * 100
-    end
-    @tov = @stuts.TO
-    @pf = @stuts.PF
-  end
   
-  
-  def simple_stuts
-    @mpg = @stuts.sum(:playingtime).fdiv(@play_times).fdiv(60).round(1)
-    @ppg = @stuts.sum(:point).fdiv(@play_times).round(1)
-    @reb = @stuts.sum(:DefReb) + @stuts.sum(:OffReb)
-    @rpg = @reb.fdiv(@play_times).round(1)
-    @apg = @stuts.sum(:Assist).fdiv(@play_times).round(1)
-    @fg_all = @stuts.sum(:FGmake) + @stuts.sum(:FGmiss)
-    if  @fg_all == 0
-      @fgp = 0
-    else
-      @fgp = (100 * @stuts.sum(:FGmake)).fdiv(@fg_all).round(1) 
-    end
-    @deep_all = @stuts.sum(:Deepmake) + @stuts.sum(:Deepmiss)
-    if @deep_all == 0
-      @dpp = 0
-    else
-      @dpp = (100 * @stuts.sum(:Deepmake)).fdiv(@deep_all).round(1) 
-    end
-    @ft_all= @stuts.sum(:FTmake) + @stuts.sum(:FTmiss)
-    if @ft_all == 0
-      @ftp = 0
-    else
-      @ftp =  (100 * @stuts.sum(:FTmake)).fdiv(@ft_all).round(1) 
-    end
-  end
-  
-  def detail_stuts
-    @orpg = @stuts.sum(:OffReb).fdiv(@play_times).round(1)
-    @drpg = @stuts.sum(:DefReb).fdiv(@play_times).round(1)
-    @spg = @stuts.sum(:steal).fdiv(@play_times).round(1)
-    @bpg = @stuts.sum(:Block).fdiv(@play_times).round(1)
-    @fga = @fg_all.fdiv(@play_times).round(1)
-    @fgm = @stuts.sum(:FGmake).fdiv(@play_times).round(1)
-    @dpa = @deep_all.fdiv(@play_times).round(1)
-    @dpm = @stuts.sum(:Deepmake).fdiv(@play_times).round(1)
-    @fta = @ft_all.fdiv(@play_times).round(1)
-    @ftm = @stuts.sum(:FTmake).fdiv(@play_times).round(1)
-    @topg = @stuts.sum(:TO).fdiv(@play_times).round(1)
-  end
   
   private
   
@@ -275,5 +199,92 @@ class HomeController < ApplicationController
       end
     end
     
-  
+    def box_stuts
+      while @stuts.nil? do
+        sleep(0.1)
+      end
+      @mts = @stuts.playingtime.fdiv(60).round(1)
+      @pts = @stuts.point
+      @oreb = @stuts.OffReb
+      @dreb = @stuts.DefReb
+      @reb = @oreb + @dreb
+      @ast = @stuts.Assist
+      @stl = @stuts.steal
+      @blk = @stuts.Block
+      @fgm = @stuts.FGmake
+      @fga = @fgm + @stuts.FGmiss
+      get_shot_percent
+      @tov = @stuts.TO
+      @pf = @stuts.PF
+    end
+    
+    def get_shot_percent
+      if  @fga == 0
+        @fgp = 0
+      else
+        @fgp = @fgm.fdiv(@fga).round(3) * 100
+      end
+      @dpm = @stuts.Deepmake
+      @dpa = @dpm + @stuts.Deepmiss
+      if @dpa == 0
+        @dpp = 0
+      else
+        @dpp = @dpm.fdiv(@dpa).round(3) * 100
+      end
+      @ftm = @stuts.FTmake
+      @fta = @ftm + @stuts.FTmiss
+      if @fta == 0
+        @ftp = 0
+      else
+        @ftp =  @ftm.fdiv(@fta).round(3) * 100
+      end
+    end
+    
+    def per_game(n)
+      n.fdiv(@play_times).round(1)
+    end
+    
+    def sum(n)
+      @stuts.sum(n)
+    end
+    
+    def simple_stuts
+      @mpg = sum(:playingtime).fdiv(@play_times).fdiv(60).round(1)
+      @ppg = per_game(sum(:point))
+      @reb = sum(:DefReb) + sum(:OffReb)
+      @rpg = per_game(@reb)
+      @apg = per_game(sum(:Assist))
+      @fg_all = sum(:FGmake) + sum(:FGmiss)
+      if  @fg_all == 0
+        @fgp = 0
+      else
+        @fgp = (100 * sum(:FGmake)).fdiv(@fg_all).round(1) 
+      end
+      @deep_all = sum(:Deepmake) + sum(:Deepmiss)
+      if @deep_all == 0
+        @dpp = 0
+      else
+        @dpp = (100 * sum(:Deepmake)).fdiv(@deep_all).round(1) 
+      end
+      @ft_all= sum(:FTmake) + sum(:FTmiss)
+      if @ft_all == 0
+        @ftp = 0
+      else
+        @ftp =  (100 * sum(:FTmake)).fdiv(@ft_all).round(1) 
+      end
+    end
+    
+    def detail_stuts
+      @orpg = per_game(sum(:OffReb))
+      @drpg = per_game(sum(:DefReb))
+      @spg = per_game(sum(:steal))
+      @bpg = per_game(sum(:Block))
+      @fga = per_game(@fg_all)
+      @fgm = per_game(sum(:FGmake))
+      @dpa = per_game(@deep_all)
+      @dpm = per_game(sum(:Deepmake))
+      @fta = per_game(@ft_all)
+      @ftm = per_game(sum(:FTmake))
+      @topg = per_game(sum(:TO))
+    end
 end
