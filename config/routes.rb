@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   get 'users/new'
   get 'users/create'
   root to: 'home#home'
-  get 'index', to:'home#index'
   get 'reg', to:'home#reg'
   post 'create', to:'home#create'
   get 'pregame', to:'game#pregame'
@@ -18,9 +17,7 @@ Rails.application.routes.draw do
   post 'game/start5_confirm/:p1id/:p2id/:p3id/:p4id/:p5id', to:'game#start5_confirm'
   post 'game/finish/:score/:opp_score', to:'game#finish'
   post 'game/stuts_record/:p_id/:p_name/:playing_time/:a/:b/:c/:d/:e/:f/:g/:h/:i/:j/:k/:l/:m', to:'game#stuts_record'
-  #get 'home/get_details/:id', to:'home#get_details'
   get 'home/box', to:'home#box'
-  
   get 'home/player_select', to:'home#player_select'
   get 'home/player_edit', to:'home#player_edit'
   patch 'home/player_update' , to:'home#player_update'
@@ -33,11 +30,10 @@ Rails.application.routes.draw do
     member do
       get 'details'
     end
+    collection do
+      get 'search'
+    end
+    resources :players
   end
-  #get 'team_reg', to: 'home#team_reg'
-  #post 'team_create', to: 'home#team_create'
-  #get 'home/team_edit', to: 'home#team_edit'
-  #patch 'home/team_update' , to:'home#team_update'
-  #patch 'home/team_delete', to:'home#team_delete'
-  #get 'team_page', to:'home#team_page'
+  
 end

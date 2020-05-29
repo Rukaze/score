@@ -1,7 +1,7 @@
 #reg.mx-4
-  h2.ml-5 選手登録
-  = form_with(model: @player, url:create_path, local:true) do |f|
-    
+  h2 選手登録
+  h4 = @team.team_name
+  = form_with(model: [@team,@player], local:true) do |f|
     p
       a = f.label :名前, class: 'mr-2'
       a.ml-3 = f.text_field :name
@@ -9,9 +9,8 @@
       a = f.label :ポジション
       a = f.select :position, {'ガード': 'G', 'フォワード': 'F', 'センター': 'C', 'G/F': 'G/F', 'F/C': 'F/C'} 
     
-    p
-      a = f.label :チーム
-      a.ml-5 = f.collection_select(:team_id, @teams, :id, :team_name) 
+     
+    
     = f.submit '選手登録', class: 'btn btn-primary ml-5' 
       
       

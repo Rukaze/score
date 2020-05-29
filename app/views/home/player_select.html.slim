@@ -1,4 +1,0 @@
-div.mx-4  
-  h4 編集するプレイヤーを選択
-  - @players.each do |p|
-    p.h5 = link_to "#{p.name} : #{p.position}", home_player_edit_path(id:p.id)

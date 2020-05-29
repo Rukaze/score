@@ -1,13 +1,7 @@
 class HomeController < ApplicationController
   
-  before_action :find_player, only: [:player_edit, :player_update, :player_delete]
-  before_action :teamowner, only: [:team_edit, :team_update,:team_delete, :player_select,
-                                   :player_edit, :player_update, :player_delete]
-  before_action :team_presence, only: [:reg]
-  before_action :require_login, only: [:reg,:team_reg,:player_select,:player_edit,:team_edit]
-  def index
-    @players = Player.all
-  end
+  
+  
   
   def home
     if current_user
@@ -15,69 +9,23 @@ class HomeController < ApplicationController
     end
   end
   
-  def reg
-    @player = Player.new
-    teams
-  end
-  
-  def create
-    @player = Player.new(player_params)
-    if @player.save
-      flash[:success] = "#{@player.name}を登録しました"
-      redirect_to reg_path
-    else
-      @player = Player.new
-      teams
-      flash.now[:danger] = '名前が入ってない又はチーム内で被ってます'
-      render 'reg'
-    end
-  end
-  
-  def player_select
-    @players = Player.where(team_id: @team.id)
-  end
-  
-  def player_edit
-  end
-  
-  def player_update
-    @player.update!(player_params)
-    flash[:success] = '名前とポジションを変更しました'
-    redirect_to team_page_path(id: @player.team_id)
-  rescue
-    flash[:danger] = '名前が入ってない又は既に存在してます'
-    redirect_to home_player_edit_path(id: @player.id)
-  end
-  
-  def player_delete
-    team_id = @player.team_id
-    @player.destroy
-    flash[:success] = 'プレイヤーを削除しました'
-    redirect_to team_page_path(id: team_id)
-  end
   
   
   
   
   
   
-  def team_edit
-  end
+ 
   
-  def team_update
-    @team.update!(team_params)
-    flash[:success] = 'チーム名を変更しました'
-    redirect_to team_page_path(id: @team.id)
-  rescue
-    flash[:danger] = '名前が入ってない又は既に存在してます'
-    redirect_to home_team_edit_path(id: @team.id)
-  end
   
-  def team_delete
-    @team.destroy
-    flash[:success] = 'チームを削除しました'
-    redirect_to root_path
-  end
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
@@ -103,18 +51,13 @@ class HomeController < ApplicationController
   
   private
   
-    def player_params
-      params.require(:player).permit(:name,:position,:team_id)
-    end
     
     
     
     
     
-    def find_player
-      @player = Player.find(params[:id])
-      @team = Team.find(@player.team_id)
-    end
+    
+    
     
     def team_presence
       if Team.last.nil?

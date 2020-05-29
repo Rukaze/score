@@ -1,5 +1,6 @@
 class TeamsController < ApplicationController
-  before_action :find_team, only: [:show]
+  before_action :find_team, only: [:show,:edit,:destroy,:update]
+  before_action :require_login,except: [:search,:show,:details]
   #[:team_edit, :team_update, :team_page, :team_delete, :player_select]
   def new
     @team = Team.new
@@ -10,7 +11,7 @@ class TeamsController < ApplicationController
     @team.user_id = current_user.id
     if @team.save
       flash[:success] = "#{@team.team_name}を登録しました"
-      redirect_to reg_path
+      redirect_to team_path(id: @team.id)
     else
       @team = Team.new
       flash.now[:danger] = '名前が入ってない又は既に存在してます'
@@ -71,6 +72,34 @@ class TeamsController < ApplicationController
     render json: stuts_array
   end
   
+  def edit
+  end
+  
+  def destroy
+    @team.destroy
+      flash[:success] = 'チームを削除しました'
+      redirect_to root_path
+  end
+  
+  def update
+    @team.update!(team_params)
+    flash[:success] = 'チーム名を変更しました'
+    redirect_to team_path(id: @team.id)
+  rescue
+    flash[:danger] = '名前が入ってない又は既に存在してます'
+    redirect_to edit_team_path(id: @team.id)
+  end
+  
+  def search
+    @team = Team.find_by(team_name: params[:team_name])
+    if @team.nil?
+      flash[:warning] = "そのチーム名は存在していません"
+      redirect_to root_path
+    else
+      redirect_to team_path(id: @team.id)
+    end
+  end
+  
   private
   
     def team_params
@@ -84,10 +113,7 @@ class TeamsController < ApplicationController
         @team = Team.find_by(team_name: params[:team_name])
       end
       
-      if @team.nil?
-        flash[:warning] = "そのチーム名は存在していません"
-        redirect_to root_path
-      end
+     
     end
     
     def simple_stuts

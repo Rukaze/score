@@ -14,31 +14,12 @@
       .col-lg-6.col-sm-12
         h3.text-center チーム検索
         .m-3
-          = form_with(model: @team, method: :get, local:true) do |f| 
+          = form_with(url:search_teams_path,method: :get,local:true) do |f| 
             p
               a = f.label :チーム名, class: 'mr-2'
               a.ml-3 = f.text_field :team_name
             
             = f.submit '検索', class: 'btn btn-primary ml-5', name: nil 
-  
-    .row.mt-4
-      .col
-        h2 作品紹介
-        p 言語： Ruby, HTML/CSS, Javascript
-        p フレームワーク ： RubyonRails, Vue.js , BootstrapVue
-        p テンプレートエンジン ： Slim
-        p DB ： MySQL
-        p サーバー ： Heroku
-        p 概要 ： バスケットボールの本格的なスコアを記録できるアプリケーションです．チームと選手を登録した後に試合を始め、
-                  タイマーを設定して，プレイや選手交代を記録することで各選手のスタッツを算出します．ログインすることで利用できます.
-                  またログインしていなくてもチーム名から検索できます。
-        p サンプル用のチーム情報
-        p ユーザー名: sample
-        p email: sample@gg.com
-        p パスワード: sample
-        p チーム名: SampleTeam
-                  
-    
     
   
 = javascript_pack_tag "home"

@@ -1,0 +1,4 @@
+div.mx-4  
+  h4 編集するプレイヤーを選択
+  - @players.each do |p|
+    p.h5 = link_to "#{p.name} : #{p.position}", edit_team_player_path(team_id:@team.id,id:p.id)
